@@ -1,15 +1,21 @@
-import React, { Fragment } from 'react';
+import { persistor, store } from './constants/store';
 
 import HabitioNavigator from './navigation/HabitioNavigator';
+import { PersistGate } from 'redux-persist/integration/react';
+import { Provider } from 'react-redux';
+import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet } from 'react-native';
 
 export default function App() {
+
   return (
-    <Fragment>
-       <HabitioNavigator/>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+      <HabitioNavigator/>
         <StatusBar style="light" />
-    </Fragment>
+      </PersistGate>
+    </Provider>
   );
 }
 
