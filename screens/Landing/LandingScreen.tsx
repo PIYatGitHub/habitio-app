@@ -1,4 +1,4 @@
-import { Container, Text } from 'native-base';
+import { Button, Container, Text } from 'native-base';
 
 import React from 'react';
 
@@ -9,6 +9,11 @@ const LandingScreen = (props:any) => {
     return (
         <Container>
              <Text>Hello from the landing screen!</Text>
+             <Button onPress={()=>{
+                 props.navigation.push('LoginScreen');
+             }}>
+                <Text>Move to next page, please</Text>
+             </Button>
         </Container>
     )
 }

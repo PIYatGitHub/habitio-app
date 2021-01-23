@@ -6,15 +6,24 @@ import {createAppContainer} from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 
 const habitioNavigator = createStackNavigator({
-    LandingScreen: LandingScreen,
-    LoginScreen: LoginScreen
+    LandingScreen: {
+        screen: LandingScreen,
+        navigationOptions: {
+            headerShown:false
+        }
+    },
+    LoginScreen: {
+        screen: LoginScreen,
+        navigationOptions: {
+            title:"sup?"
+        }
+    }
 }, {
     defaultNavigationOptions: {    
         headerStyle: {
-            backgroundColor: Platform.OS === 'android'? 'primary': '',
+            backgroundColor: Platform.OS === 'android'? 'green': '',
         },
-        headerTintColor:  Platform.OS === 'android'? 'white': colours.primary,
-
+        headerTintColor:  Platform.OS === 'android'? 'yellow': colours.primary,
     }
 });
 
