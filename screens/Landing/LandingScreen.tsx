@@ -1,25 +1,32 @@
 import { Button, Container, Text } from 'native-base';
 
 import React from 'react';
-
-//import { initialProductsState } from '../../constants/Seed';
+import colours from '../../constants/Colours';
 
 const LandingScreen = (props:any) => {
     //const products = initialProductsState; //TODO> hook this using useFetch to get data from the API! 
     return (
         <Container>
-             <Text>Hello from the landing screen!</Text>
-             <Button onPress={()=>{
+            <Container>
+                <Text>Image placeholder</Text>
+            </Container>
+             <Container>
+                 <Button onPress={()=>{
                  props.navigation.push('LoginScreen');
              }}>
-                <Text>Move to next page, please</Text>
+                <Text>Login</Text>
              </Button>
+
+             <Button style={{backgroundColor:colours.primary}} onPress={()=>{
+                 props.navigation.push('RegisterScreen');
+             }}>
+                <Text>Register</Text>
+             </Button>
+             </Container>
+             
         </Container>
     )
 }
 
-LandingScreen.navigationOptions = {
-    headerTitle: 'LandingScreen' //TODO change that from the json!
-}
 
 export default LandingScreen; 

@@ -1,6 +1,10 @@
+import HabitsScreen from '../screens/HabitBuilder/HabitsScreen';
 import LandingScreen from '../screens/Landing/LandingScreen';
 import LoginScreen from '../screens/Auth/LoginScreen';
+import MotivationScreen from '../screens/Motivation/MotivationScreen';
 import { Platform } from 'react-native';
+import RegisterScreen from '../screens/Auth/RegisterScreen';
+import TagsScreen from '../screens/Tags/TagsScreen';
 import colours from '../constants/Colours';
 import {createAppContainer} from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
@@ -15,15 +19,36 @@ const habitioNavigator = createStackNavigator({
     LoginScreen: {
         screen: LoginScreen,
         navigationOptions: {
-            title:"sup?"
+            title:""
+        }
+    },
+    RegisterScreen: {
+        screen: RegisterScreen,
+        navigationOptions: {
+            title:""
+        }
+    },
+    TagsScreen: {
+        screen: TagsScreen,
+        navigationOptions: {
+            title:""
+        }
+    },    
+    MotivationScreen: {
+        screen: MotivationScreen,
+        navigationOptions: {
+            title:""
+        }
+    },
+    HabitsScreen: {
+        screen: HabitsScreen,
+        navigationOptions: {
+            title:""
         }
     }
 }, {
-    defaultNavigationOptions: {    
-        headerStyle: {
-            backgroundColor: Platform.OS === 'android'? 'green': '',
-        },
-        headerTintColor:  Platform.OS === 'android'? 'yellow': colours.primary,
+    defaultNavigationOptions: { 
+        headerShown: false
     }
 });
 
