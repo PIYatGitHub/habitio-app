@@ -3,7 +3,7 @@ import { IHabit, ITag, IUser, IUserStateAction } from '../../constants/interface
 import React, { useState } from 'react';
 
 import CreateHabit from './components/CreateHabit';
-import Habits from './components/Habits';
+import Habits_View from './components/Habits_View';
 import { connect } from 'react-redux';
 
 const dummyHabits: IHabit[] = [{
@@ -26,11 +26,13 @@ const HabitsScreen = (props: { authenticatedUser: IUser; navigation: string[]}) 
         setWillCreateHabit(true); 
     }
     const handleHabitCreated = (habit:IHabit|null)=>{
-        setWillCreateHabit(!habit)
-        if(habit) {
+        console.log(`In here with habit=`, habit);       
+        if(habit!==null) {
             let newHabits:IHabit[] = Object.assign([], habits);
             newHabits.push(habit);
             setHabits(newHabits); 
+        } else {
+            setWillCreateHabit(false)
         }
     }
 
@@ -38,7 +40,7 @@ const HabitsScreen = (props: { authenticatedUser: IUser; navigation: string[]}) 
         !willCreateHabit?(
             <Container>
                 {selectedTab === 'habits'? (
-                <Habits habits={[]} onCreateHabitTriggered = {handleTriggerHabitCreate}/>
+                <Habits_View habits={[]} onCreateHabitTriggered = {handleTriggerHabitCreate}/>
                 ):null}
 
                 {selectedTab === 'calendar'? (

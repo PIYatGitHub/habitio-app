@@ -9,7 +9,7 @@ interface iHabitProps {
     onCreateHabitTriggered: ()=>void
 }
 
-const Habits = (props:iHabitProps) => {
+const Habits_View = (props:iHabitProps) => {
     return (        
         <Container>
            {!props.habits.length ?(
@@ -45,7 +45,7 @@ const Habits = (props:iHabitProps) => {
         </Container>
     )
 }
-export default Habits;
+export default Habits_View;
 
 const styles = StyleSheet.create({
     container: {

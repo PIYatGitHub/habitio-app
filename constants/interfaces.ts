@@ -24,3 +24,11 @@ export interface IHabit {
     goals: string[]
     habitId: number
 }
+
+export enum StatesEnum {
+    backToAddScreen = 'backToAddScreen',
+    setGoals =  'setGoals',
+    setScheduleType ='setScheduleType',
+    showExamples='showExamples',
+    setHours = 'setHours'
+}
