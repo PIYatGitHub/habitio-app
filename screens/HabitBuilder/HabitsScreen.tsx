@@ -1,5 +1,5 @@
 import { Button, Container, Content, Footer, FooterTab, Text } from 'native-base';
-import { IHabit, ITag, IUser, IUserStateAction } from '../../constants/interfaces';
+import { IHabit, ITag, IUser, IUserStateAction, ScheduleTypes } from '../../constants/interfaces';
 import React, { useState } from 'react';
 
 import CreateHabit from './components/CreateHabit';
@@ -9,12 +9,20 @@ import { connect } from 'react-redux';
 const dummyHabits: IHabit[] = [{
     habitId: 1,
     title: 'Runing',
-    goals:['Be healthy', 'Buns of Steel', 'feeling great about myself']
+    goals:['Be healthy', 'Buns of Steel', 'feeling great about myself'],
+    habitScheduleType:ScheduleTypes.fixed,
+    habitSchedule:[{
+        day:0, fromHour:'10:00 AM',toHour:'11:00 AM'
+    }]
 },
 {
     habitId: 2,
     title: 'Read one book a month',
-    goals:['Keep up with lexie', 'Big brain move', 'Getting ahead of the crowd', 'Books are the best!']
+    goals:['Keep up with lexie', 'Big brain move', 'Getting ahead of the crowd', 'Books are the best!'],
+    habitScheduleType:ScheduleTypes.fluid,
+    habitSchedule:[{
+        day:0, fromHour:'10:00 AM',toHour:'11:00 AM'
+    }]
 }
 ]
 const HabitsScreen = (props: { authenticatedUser: IUser; navigation: string[]}) => {
