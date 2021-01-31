@@ -1,5 +1,5 @@
 import { Button, Container, Content, Form, Input, Item, Text } from 'native-base';
-import { IUser, IUserStateAction } from '../../constants/interfaces';
+import { IUser, IUserStateAction, MotivationTypes } from '../../constants/interfaces';
 import React, { useState } from 'react';
 
 import { StatusBar } from 'react-native';
@@ -31,12 +31,15 @@ const LoginScreen = (props: { reduxUserState: (arg0: IUserStateAction) => void; 
         }   
 
         const userPayload:IUser = isUserLoggedIn? { 
-        userId: 1, 
-        "firstName": "Nacho",
-        "lastName": "Tsvetkov",
-        "email": "nacho@ntpy.com",
-        "password": "strong",
-        "preferredTags": [1, 3, 5, 6]}
+            userId: 1, 
+            firstName: "Nacho",
+            lastName: "Tsvetkov",
+            email: "nacho@ntpy.com",
+            password: "strong",
+            preferredTags: [1, 3, 5, 6],
+            habits: [],
+            motivation: [1]
+        }
         :emptyUser ;
          
         const userStatePayload:IUserStateAction = {loggedIn:isUserLoggedIn, type: "LOGIN", user:userPayload};
@@ -51,7 +54,7 @@ const LoginScreen = (props: { reduxUserState: (arg0: IUserStateAction) => void; 
 
     return (
         <Container>
-            <StatusBar barStyle="light-content" backgroundColor={colours.primary} />
+            <StatusBar barStyle="light-content" backgroundColor={colours.primary} hidden={false}/>
             <Container style={styles.container}>
                 <Container>
                     <Button onPress={handleCancel}><Text>Cancel</Text></Button>
@@ -62,11 +65,13 @@ const LoginScreen = (props: { reduxUserState: (arg0: IUserStateAction) => void; 
                         <Item>
                         <Input placeholder="Email" 
                         textContentType={'emailAddress'} keyboardType='email-address'
+                        value = {email}
                         onChangeText={(e)=>setEmail(e)}
                         />
                         </Item>
                         <Item last>
                         <Input placeholder="Password" 
+                        value = {password}
                         secureTextEntry = {true} onChangeText={(e)=>setPassword(e)}/>
                         </Item>
                     </Form>
@@ -92,7 +97,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
 
 const styles = StyleSheet.create({
     container: {
-        paddingTop:24
+        paddingTop:0
     }
   });
   

@@ -1,19 +1,20 @@
+import React, { useEffect } from 'react';
 import { persistor, store } from './constants/store';
 
+import { AppLoading } from 'expo';
 import HabitioNavigator from './navigation/HabitioNavigator';
 import { PersistGate } from 'redux-persist/integration/react';
 import { Provider } from 'react-redux';
-import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet } from 'react-native';
+import { useFonts } from 'expo-font';
 
-export default function App() {
+const App = () => {
 
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-      <HabitioNavigator/>
-        <StatusBar style="light" />
+        <HabitioNavigator/>
       </PersistGate>
     </Provider>
   );
@@ -27,3 +28,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+export default App; 

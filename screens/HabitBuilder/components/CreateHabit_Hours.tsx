@@ -1,4 +1,4 @@
-import { Body, Button, CheckBox, Container, Content, Form, Icon, Input, Item, ListItem, Text } from 'native-base';
+import { Body, Button, CheckBox, Container, Content, ListItem, Text } from 'native-base';
 import { IHabitShedule, StatesEnum, weekDayMap } from '../../../constants/interfaces';
 import React, { Fragment, useState } from 'react';
 
@@ -28,10 +28,14 @@ const CreateHabit_Hours = (props:iSetHabitHoursProps) => {
          let scheduleToPush:IHabitShedule = Object.assign({}, emptySchedule);
      
         let newDailySchedules:IHabitShedule[] = Object.assign([], dailyHabitSchedules); 
+        console.log(`newDailySchedules...`, newDailySchedules);
+        
         const mapEntries = Object.entries(weekDayMap);
         const targetDay = mapEntries.find(me=>me[0]===dow);
 
         if(targetDay){
+            console.log(`targ day...`, targetDay);
+            
             let spliceIdx = -1; 
             let match = newDailySchedules.find((ds, idx)=> {
                 if( ds.day === targetDay[1]){
@@ -62,7 +66,11 @@ const CreateHabit_Hours = (props:iSetHabitHoursProps) => {
     const handleHoursChanged = (hourFrom:string, hourTo:string, dow:string)=>{ //one or more hors are set
         const mapEntries = Object.entries(weekDayMap);
         const targetDay = mapEntries.find(me=>me[0]===dow); 
+        console.log(`hourFrom:string, hourTo:string, dow:string`, hourFrom, hourTo, dow);
+        
         if(targetDay){
+            console.log(`target day`, targetDay);
+
             const newDailySchedules:IHabitShedule[] = Object.assign([], dailyHabitSchedules); 
             let spliceIdx = -1; 
             let match = newDailySchedules.find((ds, idx)=> {
@@ -72,15 +80,18 @@ const CreateHabit_Hours = (props:iSetHabitHoursProps) => {
                 }
                 return undefined;
             }); 
-
+            console.log(`match and splice idx`, match, spliceIdx);
+            
             if(match && spliceIdx !== -1){
                 newDailySchedules.splice(spliceIdx, 1);
                 match.toHour = hourTo;
                 match.fromHour = hourFrom; 
-                newDailySchedules.push(match); 
-                console.log(`where I reset the schedule....`, newDailySchedules);
-                setDailyHabitSchedules(newDailySchedules)
+                newDailySchedules.push(match);                
+            } else{
+                newDailySchedules.push({fromHour:hourFrom, toHour:hourTo, day:targetDay[1]})
             }
+            console.log(`where I reset the schedule....`, newDailySchedules);
+            setDailyHabitSchedules(newDailySchedules)
         }
     }
 
@@ -129,7 +140,7 @@ export default CreateHabit_Hours;
 
 const styles = StyleSheet.create({
     container: {
-        paddingTop:24
+        paddingTop:0
     }
   });
   

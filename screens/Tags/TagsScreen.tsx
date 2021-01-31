@@ -2,6 +2,7 @@ import { Button, Container, Content, Text } from 'native-base';
 import { ITag, IUser, IUserStateAction } from '../../constants/interfaces';
 import React, { useState } from 'react';
 
+import {StyleSheet} from 'react-native';
 import { connect } from 'react-redux';
 
 const generateTags = (name:string):ITag[]=> {
@@ -27,14 +28,19 @@ const generateTags = (name:string):ITag[]=> {
 }
 
 
-const TagsScreen = (props: { authenticatedUser: IUser; navigation: string[]}) => {
-    const [selectedTags, setSelectedTags] = useState<number []>([]);
+const TagsScreen = (props: {reduxUserState: (arg0: IUserStateAction) => void, authenticatedUser: IUser; navigation: string[]}) => {
+    const [selectedTags, setSelectedTags] = useState<number []>(props.authenticatedUser.preferredTags);
     const tags = generateTags(props.authenticatedUser.firstName); 
      
     const handleSubmit = async ()=> {
         // TODO make an api call here 
        
         //TODO go to motivation screen!
+        const userPayload:IUser = Object.assign({}, props.authenticatedUser); 
+        userPayload.preferredTags = selectedTags; 
+        const userStatePayload:IUserStateAction = {loggedIn:true, type: "SET_TAGS", user:userPayload};
+
+        props.reduxUserState(userStatePayload);
         props.navigation.push('MotivationScreen');
     }
     const handleTagClick = (tagId:number)=>{
@@ -55,29 +61,43 @@ const TagsScreen = (props: { authenticatedUser: IUser; navigation: string[]}) =>
     }
 
     return (
-        <Container>
-            <Container>
-                <Button onPress={handleSubmit}><Text>Next</Text></Button>
+        <Container style={styles.container}>
+            <Button onPress={handleSubmit} transparent><Text>Next</Text></Button>
+            <Container style={styles.tagList}>
+                {tags.map(tag=>{
+                    return(
+                        <Button style={styles.tag} onPress = {()=>{handleTagClick(tag.tagId)}} key={tag.tagId} bordered = {!selectedTags.includes(tag.tagId)}>
+                            <Text>{tag.tagName}</Text>
+                        </Button>                            
+                    )
+                })}
             </Container>
-            <Container>
-                 <Content>
-                    {tags.map(tag=>{
-                        return(
-                            <Button onPress = {()=>{handleTagClick(tag.tagId)}} key={tag.tagId} bordered = {!selectedTags.includes(tag.tagId)}>
-                                <Text>{tag.tagName}</Text>
-                            </Button>                            
-                        )
-                    })}
-                </Content>
-            </Container>  
-            <Container>
-                <Button>
-                    <Text>Add your own</Text>
-                </Button>
-            </Container>         
+            <Button>
+                <Text>Add your own</Text>
+            </Button>
         </Container>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        display:'flex',
+        flexDirection:'column',
+        justifyContent:'flex-start',
+        alignContent:'flex-start',
+        alignItems:'flex-start'
+    },
+    tagList: {
+        marginTop:0,
+        display: 'flex',
+        flexDirection:'row',
+        flexWrap:'wrap',
+        alignContent:'center'
+    }, 
+    tag: {
+        margin:5
+    }
+  });
 
 const mapStateToProps = (state: { authReducer: { user:IUser }; }) => {
     return {

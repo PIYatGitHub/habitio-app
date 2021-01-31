@@ -1,4 +1,3 @@
-import { Button, Container, Form, Icon, Input, Item, Text } from 'native-base';
 import { IHabit, IHabitShedule, IUser, ScheduleTypes, StatesEnum } from '../../../constants/interfaces';
 import React, { useState } from 'react';
 
@@ -6,7 +5,7 @@ import CreateHabit_Examples from './CreateHabit_Examples';
 import CreateHabit_Goals from './CreateHabit_Goals';
 import CreateHabit_Hours from './CreateHabit_Hours';
 import CreateHabit_Schedule from './CreateHabit_Schedule';
-import { StyleSheet } from 'react-native';
+import { Text } from 'native-base';
 
 interface iHabitCreateProps {
     user: IUser; 
@@ -49,13 +48,11 @@ const CreateHabit = (props:iHabitCreateProps) => {
     }
 
     const handleHabitHoursChange = (schedule:IHabitShedule[], step:StatesEnum) => { //finally schedule hours are set! 
-        console.log(`I am here with... schedule: and stet`, schedule, step);
         const newHabit: IHabit = Object.assign({}, habit);
          newHabit.habitSchedule = schedule; 
         setHabit(newHabit); 
         setCurrentStep(step); 
-        
-        props.onCreateHabit(habit);
+        props.onCreateHabit(newHabit);
     }
 
     if(currentStep === StatesEnum.setGoals ) {
@@ -87,25 +84,3 @@ const CreateHabit = (props:iHabitCreateProps) => {
     )
 }
 export default CreateHabit;
-
-const styles = StyleSheet.create({
-    container: {
-        paddingTop:24
-    },
-    flexRowWrap: {
-        display:'flex',
-        flexDirection:'row', 
-        flexWrap:'wrap'
-    },
-    badge:{
-        marginTop: 5,
-        marginBottom:5,
-        marginRight:5
-    },
-    badgeIcon: {
-        fontSize: 15,
-        color: "#fff",
-        lineHeight: 20
-    }
-  });
-  

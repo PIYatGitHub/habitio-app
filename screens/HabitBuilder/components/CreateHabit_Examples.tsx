@@ -30,22 +30,7 @@ export default CreateHabit_Examples;
 
 const styles = StyleSheet.create({
     container: {
-        paddingTop:24
-    },
-    flexRowWrap: {
-        display:'flex',
-        flexDirection:'row', 
-        flexWrap:'wrap'
-    },
-    badge:{
-        marginTop: 5,
-        marginBottom:5,
-        marginRight:5
-    },
-    badgeIcon: {
-        fontSize: 15,
-        color: "#fff",
-        lineHeight: 20
+        paddingTop:0
     }
   });
   

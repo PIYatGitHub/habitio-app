@@ -1,6 +1,6 @@
 import { Button, Container, Content, Footer, FooterTab, Text } from 'native-base';
 import { IHabit, ITag, IUser, IUserStateAction, ScheduleTypes } from '../../constants/interfaces';
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 
 import CreateHabit from './components/CreateHabit';
 import Habits_View from './components/Habits_View';
@@ -39,9 +39,9 @@ const HabitsScreen = (props: { authenticatedUser: IUser; navigation: string[]}) 
             let newHabits:IHabit[] = Object.assign([], habits);
             newHabits.push(habit);
             setHabits(newHabits); 
-        } else {
-            setWillCreateHabit(false)
         }
+        setWillCreateHabit(false);
+        setSelectedTab('calendar'); 
     }
 
     return (
@@ -52,11 +52,20 @@ const HabitsScreen = (props: { authenticatedUser: IUser; navigation: string[]}) 
                 ):null}
 
                 {selectedTab === 'calendar'? (
-                    <Text>Hey from calendar!</Text>
+                    <Fragment>
+                        <Text>Hey from calendar!</Text>
+                        <Text>Hey from calendar!line 2</Text>
+                        <Text>Hey from calendar!line 3</Text>
+                    </Fragment>
+                    
                 ):null}
 
                 {selectedTab === 'settings'? (
-                    <Text>Hey from settings!</Text>
+                   <Fragment>
+                   <Text>Hey from settings!</Text>
+                   <Text>Hey from settings!line 2</Text>
+                   <Text>Hey from settings!line 3</Text>
+               </Fragment>
                 ):null}
                 <Footer>
                 <FooterTab>

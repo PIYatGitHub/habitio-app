@@ -1,37 +1,19 @@
 import { Button, Container, Content, Text } from 'native-base';
-import { ITag, IUser, IUserStateAction } from '../../constants/interfaces';
+import { IUser, IUserStateAction } from '../../constants/interfaces';
 import React, { useState } from 'react';
 
+import {StyleSheet} from 'react-native';
 import { connect } from 'react-redux';
 
-const generateTags = (name:string):ITag[]=> {
-    return [
-        {"tagId": 1, "tagName": `Hey ${name}!`},
-        {"tagId": 2, "tagName":"Hey mister!"},
-        {"tagId": 3, "tagName":"Hey lady!"},
-        {"tagId": 4, "tagName":"Bruh"},
-        {"tagId": 5, "tagName":"Bae"},
-        {"tagId": 6, "tagName":"Hey sexy"},
-        {"tagId": 7, "tagName": "Yo bitch"},
-        {"tagId": 8, "tagName": "Chica"},
-        {"tagId": 9, "tagName": "Chico"},
-        {"tagId": 10, "tagName": "Chicx"},
-        {"tagId": 11, "tagName": "Dude"},
-        {"tagId": 12, "tagName": "Dudette"},
-        {"tagId": 13, "tagName": "Viking"},
-        {"tagId": 14, "tagName": "Future world dominator"},
-        {"tagId": 15, "tagName": "Warrior"},
-        {"tagId": 16, "tagName": "Warrior princess"},
-        {"tagId": 17, "tagName": "Warrior prince"}
-    ]
-}
+const TagsScreen = (props: { reduxUserState: (arg0: IUserStateAction) => void, authenticatedUser: IUser; navigation: string[]}) => {
+    const [selectedMotivations, setSelectedMotivations] = useState<number []>(props.authenticatedUser.motivation);
 
-
-const TagsScreen = (props: { authenticatedUser: IUser; navigation: string[]}) => {
-    const [selectedMotivations, setSelectedMotivations] = useState<number []>([]);
-    const tags = generateTags(props.authenticatedUser.firstName); 
-     
     const handleSubmit = async ()=> {
+        const userPayload:IUser = Object.assign({}, props.authenticatedUser); 
+        userPayload.motivation = selectedMotivations; 
+        const userStatePayload:IUserStateAction = {loggedIn:true, type: "SET_MOTIVAITON", user:userPayload};
+
+        props.reduxUserState(userStatePayload);
         props.navigation.push('HabitsScreen');
     }
     const handleMotivationClick = (motivationId:number)=>{
@@ -52,11 +34,8 @@ const TagsScreen = (props: { authenticatedUser: IUser; navigation: string[]}) =>
     }
 
     return (
-        <Container>
-            <Container>
-                <Button onPress={handleSubmit}><Text>Next</Text></Button>
-            </Container>
-            <Container>
+        <Container style = {styles.container}>
+                <Button onPress={handleSubmit} transparent><Text>Next</Text></Button>
                  <Content>
                  <Text>What motivates you</Text>
                  <Text>Select one or both. You can edit later in settings.</Text>
@@ -68,10 +47,17 @@ const TagsScreen = (props: { authenticatedUser: IUser; navigation: string[]}) =>
                     <Text>The stick</Text>
                 </Button>     
                 </Content>
-            </Container> 
         </Container>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        display:'flex',
+        flexDirection:'column',
+        justifyContent:'flex-start'
+    }
+  });
 
 const mapStateToProps = (state: { authReducer: { user:IUser }; }) => {
     return {

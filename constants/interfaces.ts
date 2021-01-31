@@ -4,7 +4,9 @@ export interface IUser {
     lastName: string;
     email: string;
     password: string;
-    preferredTags: number[]
+    preferredTags: number[],
+    habits: IHabit[],
+    motivation: number[] 
 }
 
 export interface IUserStateAction {
@@ -47,6 +49,11 @@ export enum ScheduleTypes {
     unknown =  'unknown',
 }
 
+export enum MotivationTypes {
+    carrot = 'The carrot',
+    stick = 'The stick'
+}
+
 export const weekDayMap = {
     'Monday': 0,
     'Tuesday': 1,
@@ -55,14 +62,4 @@ export const weekDayMap = {
     'Friday':4, 
     'Saturday':5,
     'Sunday':6
-}
-
-export enum DaysOfWeek {
-    'Monday'= 0,
-    'Tuesday'=  1,
-    'Wednesday' = 2,
-    'Thursday'= 3,
-    'Friday' =  4, 
-    'Saturday' = 5,
-    'Sunday' = 6
 }

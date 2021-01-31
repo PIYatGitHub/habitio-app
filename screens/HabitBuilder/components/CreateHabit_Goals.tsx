@@ -58,7 +58,7 @@ export default CreateHabit_Goals;
 
 const styles = StyleSheet.create({
     container: {
-        paddingTop:24
+        paddingTop:0
     },
     flexRowWrap: {
         display:'flex',

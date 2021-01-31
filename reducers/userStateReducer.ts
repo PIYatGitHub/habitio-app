@@ -1,15 +1,20 @@
-import { IUser, IUserStateAction } from "../constants/interfaces";
+import { IHabit, IUser, IUserStateAction, MotivationTypes } from "../constants/interfaces";
 
 // Initial State
 const emptyTags: number[] = []
+const emptyHabits: IHabit[] = [];
+const emptyMotivation: number[] = []; 
 export const emptyUser: IUser = {
     userId: 0, 
     firstName:'',
     lastName:'',
     email:'',
     password:'',
-    preferredTags: emptyTags
+    preferredTags: emptyTags,
+    habits: emptyHabits,
+    motivation: emptyMotivation
 }
+
 
 const initialState = {
     loggedIn: false,
@@ -20,18 +25,14 @@ const initialState = {
     switch (action.type) {
       case 'LOGIN': {
         return {
-          // State
           ...state,
-          // Redux Store
           loggedIn: action.loggedIn,
           user: action.user
         }
       }
       case 'LOGOUT': {
         return {
-          // State
           ...state,
-          // Redux Store
           loggedIn: action.loggedIn,
           user: emptyUser
         }
@@ -39,11 +40,20 @@ const initialState = {
       case 'SET_TAGS': {
         const user:IUser = Object.assign([], state.user); 
         user.preferredTags = Object.assign([], action.user.preferredTags); 
-
+        console.log(`setting user tags!`, action.user.preferredTags);
+        
         return {
-          // State
           ...state,
-          // Redux Store
+          user: user
+        }
+      }
+      case 'SET_MOTIVATION': {
+        const user:IUser = Object.assign([], state.user); 
+        user.motivation = Object.assign([], action.user.motivation); 
+        console.log(`setting user motivation!`, action.user.motivation);
+        
+        return {
+          ...state,
           user: user
         }
       }

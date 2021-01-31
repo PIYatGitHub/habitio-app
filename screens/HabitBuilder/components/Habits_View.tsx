@@ -1,7 +1,7 @@
 import { Badge, Button, Container, Icon, Text } from 'native-base';
-import React, { useState } from 'react';
 
 import { IHabit } from '../../../constants/interfaces';
+import React from 'react';
 import { StyleSheet } from 'react-native';
 
 interface iHabitProps {
