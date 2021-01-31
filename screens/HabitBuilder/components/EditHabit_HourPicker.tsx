@@ -1,23 +1,22 @@
 import { Button, Container, Content, Text } from 'native-base';
+import { IHabit, IHabitShedule } from '../../../constants/interfaces';
 import { Platform, StyleSheet } from 'react-native';
 import React, { useState } from 'react';
 
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { IHabitShedule } from '../../../constants/interfaces';
 import { convertNumberToWeekday } from '../../../utils/convertWeekday';
 import { formatAMPM } from '../../../utils/convertAMPM';
 
-interface iHabitHourPickerProps {
+interface IHabitHourPickerProps {
     selectedHabitSchedule:IHabitShedule
     onHbitHoursChanged: (hourFrom:string, hourTo:string, dow:string)=>void
 }
 
 
-const CreateHabit_HourPicker = (props:iHabitHourPickerProps) => {
-    const date =new Date(Date.now());
+const EditHabit_HourPicker = (props:IHabitHourPickerProps) => {
     const [showSetHourFrom, setShowHourFrom] = useState(false);
     const [showSetHourTo, setShowHourTo] = useState(false);
-
+    
     const onHourChange = (value:number, isHourFrom: boolean)=>{
         console.log(`value reads....`, value);
         if(value){
@@ -106,11 +105,11 @@ const CreateHabit_HourPicker = (props:iHabitHourPickerProps) => {
     </Container>
     )
 }
-export default CreateHabit_HourPicker;
+export default EditHabit_HourPicker;
 
 const styles = StyleSheet.create({
     container: {
-        paddingTop:24
+        paddingTop:0
     }
   });
   

@@ -2,14 +2,15 @@ import { IHabit, IHabitShedule, IUser, ScheduleTypes, StatesEnum } from '../../.
 import React, { useState } from 'react';
 
 import CreateHabit_Examples from './CreateHabit_Examples';
-import CreateHabit_Goals from './CreateHabit_Goals';
-import CreateHabit_Hours from './CreateHabit_Hours';
-import CreateHabit_Schedule from './CreateHabit_Schedule';
+import EditHabit_Goals from './EditHabit_Goals';
+import EditHabit_Hours from './EditHabit_Hours';
+import EditHabit_ScheduleType from './EditHabit_ScheduleType';
 import { Text } from 'native-base';
 
-interface iHabitCreateProps {
+interface IEditHabitProps {
     user: IUser; 
-    onCreateHabit: (habit:IHabit|null)=>void
+    onHabitChanged: (habit:IHabit|null)=>void; 
+    habitToEdit?: IHabit; 
 }
 
 const emptyHabit:IHabit =  {
@@ -19,11 +20,11 @@ const emptyHabit:IHabit =  {
     habitScheduleType:ScheduleTypes.unknown,
     habitSchedule:[{day:-1, fromHour:'', toHour:''}]  
 }
-const CreateHabit = (props:iHabitCreateProps) => {
-    const [habit, setHabit] = useState<IHabit>(emptyHabit); 
+const HabitEditor = (props:IEditHabitProps) => {
+    const [habit, setHabit] = useState<IHabit>(props.habitToEdit? props.habitToEdit: emptyHabit); 
     const [currentStep, setCurrentStep] = useState<StatesEnum>(StatesEnum.setGoals); 
 
-    const handleHabitChange = (title:string, goals:string[], step:StatesEnum) => { //title and goals are done!
+    const handleHabitGoalsChange = (title:string, goals:string[], step:StatesEnum) => { //title and goals are done!
         console.log(`in here with title:string, goals:string[], step:StatesEnum: `, title, goals, step);
         const newHabit: IHabit = Object.assign({}, habit);
         newHabit.title = title; 
@@ -31,10 +32,10 @@ const CreateHabit = (props:iHabitCreateProps) => {
         setHabit(newHabit); 
     
         setCurrentStep(step); 
-        if(step === StatesEnum.backToAddScreen)  props.onCreateHabit(null);
+        if(step === StatesEnum.backToAddScreen)  props.onHabitChanged(null);
     }
 
-    const handleSchedultTypeChange = (scheduleType:ScheduleTypes, step:StatesEnum) => { //schedultype has changed! 
+    const handleHabitSchedultTypeChange = (scheduleType:ScheduleTypes, step:StatesEnum) => { //schedultype has changed! 
         console.log(`I am here with... scheduleType:ScheduleTypes, step:StatesEnum`, scheduleType, step);
         const newHabit: IHabit = Object.assign({}, habit);
          newHabit.habitScheduleType = scheduleType; 
@@ -52,18 +53,18 @@ const CreateHabit = (props:iHabitCreateProps) => {
          newHabit.habitSchedule = schedule; 
         setHabit(newHabit); 
         setCurrentStep(step); 
-        props.onCreateHabit(newHabit);
+        props.onHabitChanged(newHabit);
     }
 
     if(currentStep === StatesEnum.setGoals ) {
         return(
-            <CreateHabit_Goals onSetHabit={handleHabitChange}/>
+            <EditHabit_Goals onSetHabitGoals={handleHabitGoalsChange}/>
         )
     }
 
     if(currentStep === StatesEnum.setScheduleType) {
         return(
-           <CreateHabit_Schedule onSetScheduleType={handleSchedultTypeChange}/>
+           <EditHabit_ScheduleType onSetScheduleType={handleHabitSchedultTypeChange} />
         )
     }
 
@@ -75,7 +76,7 @@ const CreateHabit = (props:iHabitCreateProps) => {
 
     if(currentStep === StatesEnum.setHours) {
         return(
-            <CreateHabit_Hours onSetHabitHours={handleHabitHoursChange}/>
+            <EditHabit_Hours onSetHabitHours={handleHabitHoursChange}/>
         )
     }
 
@@ -83,4 +84,4 @@ const CreateHabit = (props:iHabitCreateProps) => {
         <Text>Cannot be here!!</Text>
     )
 }
-export default CreateHabit;
+export default HabitEditor;

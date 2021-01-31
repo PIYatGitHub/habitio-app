@@ -1,4 +1,4 @@
-import { IHabit, IUser, IUserStateAction, MotivationTypes } from "../constants/interfaces";
+import { IHabit, IUser, IUserStateAction } from "../constants/interfaces";
 
 // Initial State
 const emptyTags: number[] = []
@@ -56,6 +56,16 @@ const initialState = {
           ...state,
           user: user
         }
+      }
+      case 'SET_HABITS': {
+          const user:IUser = Object.assign([], state.user); 
+          user.habits = Object.assign([], action.user.habits); 
+          console.log(`setting user habits!`, action.user.habits);
+          
+          return {
+            ...state,
+            user: user
+          }
       }
       default: {
         return state;

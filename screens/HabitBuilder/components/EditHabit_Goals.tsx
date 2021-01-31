@@ -1,17 +1,18 @@
 import { Button, Container, Form, Icon, Input, Item, Text } from 'native-base';
+import { IHabit, StatesEnum } from '../../../constants/interfaces';
 import React, { useState } from 'react';
 
-import { StatesEnum } from '../../../constants/interfaces';
 import { StyleSheet } from 'react-native';
 
-interface iHabitCreateHabitProps {
-    onSetHabit: (title:string, goals:string[], step:StatesEnum)=>void
+interface IEditHabitGoalsProps {
+    onSetHabitGoals: (title:string, goals:string[], step:StatesEnum)=>void
+    habitToEdit?: IHabit; 
 }
 
 
-const CreateHabit_Goals = (props:iHabitCreateHabitProps) => {
-    const [title, setTitle] = useState(''); 
-    const [goals, setGoals] = useState<string[]>(['','','']); 
+const EditHabit_Goals = (props:IEditHabitGoalsProps) => {
+    const [title, setTitle] = useState(props.habitToEdit? props.habitToEdit.title: ''); 
+    const [goals, setGoals] = useState<string[]>(props.habitToEdit? props.habitToEdit.goals: ['','','']); 
 
     const handleGoalChange = (goalIdx:number, value:string) => {
       let newGoals:string[] = Object.assign([], goals); 
@@ -21,7 +22,7 @@ const CreateHabit_Goals = (props:iHabitCreateHabitProps) => {
     }
 
     const handleNextStep = (flag:boolean)=> {
-       props.onSetHabit(title, goals, flag?StatesEnum.setScheduleType:StatesEnum.backToAddScreen); 
+       props.onSetHabitGoals(title, goals, flag?StatesEnum.setScheduleType:StatesEnum.backToAddScreen); 
     }
     
     return(
@@ -54,7 +55,7 @@ const CreateHabit_Goals = (props:iHabitCreateHabitProps) => {
     </Container>
     )
 }
-export default CreateHabit_Goals;
+export default EditHabit_Goals;
 
 const styles = StyleSheet.create({
     container: {

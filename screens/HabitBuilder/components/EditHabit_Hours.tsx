@@ -1,12 +1,13 @@
 import { Body, Button, CheckBox, Container, Content, ListItem, Text } from 'native-base';
-import { IHabitShedule, StatesEnum, weekDayMap } from '../../../constants/interfaces';
+import { IHabit, IHabitShedule, StatesEnum, weekDayMap } from '../../../constants/interfaces';
 import React, { Fragment, useState } from 'react';
 
-import CreateHabit_HourPicker from './CreateHabits_HourPicker';
+import EditHabit_HourPicker from './EditHabit_HourPicker';
 import { StyleSheet } from 'react-native';
 
 interface iSetHabitHoursProps {
     onSetHabitHours: (schedule:IHabitShedule[], step:StatesEnum)=>void
+    habitToEdit?:IHabit; 
 }
 
 const emptySchedule:IHabitShedule = {
@@ -14,7 +15,7 @@ const emptySchedule:IHabitShedule = {
     fromHour:'',
     toHour:''
 }
-const CreateHabit_Hours = (props:iSetHabitHoursProps) => {
+const EditHabit_Hours = (props:iSetHabitHoursProps) => {
     const [dailyHabitSchedules, setDailyHabitSchedules] = useState<IHabitShedule[]>([]);
     const [activatedDows, setActivatedDows] = useState<string[]>([]);
 
@@ -123,7 +124,7 @@ const CreateHabit_Hours = (props:iSetHabitHoursProps) => {
                             <Text>{dow}</Text>
                             {activatedDows.includes(dow)?(
                                 <Fragment>
-                                     <CreateHabit_HourPicker  selectedHabitSchedule = {getCurrentSchedule(dow)} onHbitHoursChanged={handleHoursChanged}/>
+                                     <EditHabit_HourPicker  selectedHabitSchedule = {getCurrentSchedule(dow)} onHbitHoursChanged={handleHoursChanged}/>
                                 </Fragment>
                                 
                             ):null}
@@ -136,7 +137,7 @@ const CreateHabit_Hours = (props:iSetHabitHoursProps) => {
     </Container>
     )
 }
-export default CreateHabit_Hours;
+export default EditHabit_Hours;
 
 const styles = StyleSheet.create({
     container: {

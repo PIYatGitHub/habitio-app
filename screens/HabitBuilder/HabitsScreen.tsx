@@ -2,38 +2,28 @@ import { Button, Container, Content, Footer, FooterTab, Text } from 'native-base
 import { IHabit, ITag, IUser, IUserStateAction, ScheduleTypes } from '../../constants/interfaces';
 import React, { Fragment, useState } from 'react';
 
-import CreateHabit from './components/CreateHabit';
+import HabitEditor from './components/HabitEditor';
 import Habits_View from './components/Habits_View';
 import { connect } from 'react-redux';
 
-const dummyHabits: IHabit[] = [{
-    habitId: 1,
-    title: 'Runing',
-    goals:['Be healthy', 'Buns of Steel', 'feeling great about myself'],
-    habitScheduleType:ScheduleTypes.fixed,
-    habitSchedule:[{
-        day:0, fromHour:'10:00 AM',toHour:'11:00 AM'
-    }]
-},
-{
-    habitId: 2,
-    title: 'Read one book a month',
-    goals:['Keep up with lexie', 'Big brain move', 'Getting ahead of the crowd', 'Books are the best!'],
-    habitScheduleType:ScheduleTypes.fluid,
-    habitSchedule:[{
-        day:0, fromHour:'10:00 AM',toHour:'11:00 AM'
-    }]
+const emptyHabit:IHabit =  {
+    title: '',
+    goals: [],
+    habitId:-1,
+    habitScheduleType:ScheduleTypes.unknown,
+    habitSchedule:[{day:-1, fromHour:'', toHour:''}]  
 }
-]
+
 const HabitsScreen = (props: { authenticatedUser: IUser; navigation: string[]}) => {
     const [selectedTab, setSelectedTab] = useState('habits'); 
     const [willCreateHabit, setWillCreateHabit] = useState(false); 
-    const [habits, setHabits] = useState<IHabit[]>(dummyHabits);
+    const [habits, setHabits] = useState<IHabit[]>(props.authenticatedUser.habits);
+    const [seclectedHabit, setSelectedHabit] = useState(emptyHabit); 
 
     const handleTriggerHabitCreate = ()=>{
         setWillCreateHabit(true); 
     }
-    const handleHabitCreated = (habit:IHabit|null)=>{
+    const handleHabitChange = (habit:IHabit|null)=>{
         console.log(`In here with habit=`, habit);       
         if(habit!==null) {
             let newHabits:IHabit[] = Object.assign([], habits);
@@ -48,7 +38,7 @@ const HabitsScreen = (props: { authenticatedUser: IUser; navigation: string[]}) 
         !willCreateHabit?(
             <Container>
                 {selectedTab === 'habits'? (
-                <Habits_View habits={[]} onCreateHabitTriggered = {handleTriggerHabitCreate}/>
+                <Habits_View habits={props.authenticatedUser.habits} onCreateHabitTriggered = {handleTriggerHabitCreate}/>
                 ):null}
 
                 {selectedTab === 'calendar'? (
@@ -89,7 +79,7 @@ const HabitsScreen = (props: { authenticatedUser: IUser; navigation: string[]}) 
                 </Footer>
             </Container>
         ): (
-           <CreateHabit onCreateHabit={handleHabitCreated} user={props.authenticatedUser}/>
+           <HabitEditor onHabitChanged={handleHabitChange} user={props.authenticatedUser}/>
         )
         
     )
