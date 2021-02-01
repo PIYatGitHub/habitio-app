@@ -1,9 +1,9 @@
-import { Button, Container, Content, Text } from 'native-base';
-import { IHabit, IHabitShedule } from '../../../constants/interfaces';
-import { Platform, StyleSheet } from 'react-native';
+import { Button, Container, Text } from 'native-base';
+import { IHabitShedule, ScheduleTypes } from '../../../constants/interfaces';
 import React, { useState } from 'react';
 
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { StyleSheet } from 'react-native';
 import { convertNumberToWeekday } from '../../../utils/convertWeekday';
 import { formatAMPM } from '../../../utils/convertAMPM';
 
@@ -66,43 +66,39 @@ const EditHabit_HourPicker = (props:IHabitHourPickerProps) => {
     }
 
     return(
-    <Container style={styles.container}>
-        <Container>
-            <Content>
-                <Button onPress={()=>setShowHourFrom(!showSetHourFrom)} transparent>
-                    <Text>
-                        Set from hour
-                    </Text>
-                </Button>
-                {showSetHourFrom && (
-                    <DateTimePicker
-                    testID="dateTimePicker"
-                    value={setFromDatePicker()}
-                    mode='time'
-                    is24Hour={false}
-                    display="default"
-                    onChange={(event:any)=>onHourChange(event.nativeEvent.timestamp, true)}
-                    />
-                )}
+        <Container style={styles.container}>
+            <Button onPress={()=>setShowHourFrom(!showSetHourFrom)} transparent>
+                <Text>
+                    Set from hour
+                </Text>
+            </Button>
+            {showSetHourFrom && (
+                <DateTimePicker
+                testID="dateTimePicker"
+                value={setFromDatePicker()}
+                mode='time'
+                is24Hour={false}
+                display="default"
+                onChange={(event:any)=>onHourChange(event.nativeEvent.timestamp, true)}
+                />
+            )}
 
-                <Button onPress={()=>setShowHourTo(!showSetHourFrom)} transparent>
-                    <Text>
-                        Set to hour
-                    </Text>
-                </Button>
-                {showSetHourTo && (
-                    <DateTimePicker
-                    testID="dateTimePicker"
-                    value={setToDatePicker()}
-                    mode='time'
-                    is24Hour={false}
-                    display="default"
-                    onChange={(event:any)=>onHourChange(event.nativeEvent.timestamp, false)}
-                    />
-                )}
-            </Content>         
-        </Container>
-    </Container>
+            <Button onPress={()=>setShowHourTo(!showSetHourFrom)} transparent>
+                <Text>
+                    Set to hour
+                </Text>
+            </Button>
+            {showSetHourTo && (
+                <DateTimePicker
+                testID="dateTimePicker"
+                value={setToDatePicker()}
+                mode='time'
+                is24Hour={false}
+                display="default"
+                onChange={(event:any)=>onHourChange(event.nativeEvent.timestamp, false)}
+                />
+            )}      
+            </Container>
     )
 }
 export default EditHabit_HourPicker;

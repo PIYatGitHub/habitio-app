@@ -10,8 +10,8 @@ import { emptyUser } from '../../reducers/userStateReducer';
 import storage from '../../constants/db';
 
 const LoginScreen = (props: { reduxUserState: (arg0: IUserStateAction) => void; navigation: string[]; authenticatedUser:IUser }) => {
-    const [email, setEmail] = useState('nacho@ntpy.com');
-    const [password, setPassword] = useState('strong');
+    const [email, setEmail] = useState('test@ntpy.com');
+    const [password, setPassword] = useState('test');
 
     const handleSubmit = async()=> {
         console.log(`the reducer did work!!!!`, props.authenticatedUser);
@@ -32,10 +32,10 @@ const LoginScreen = (props: { reduxUserState: (arg0: IUserStateAction) => void; 
 
         const userPayload:IUser = isUserLoggedIn? { 
             userId: 1, 
-            firstName: "Nacho",
-            lastName: "Tsvetkov",
-            email: "nacho@ntpy.com",
-            password: "strong",
+            firstName: "Test",
+            lastName: "User",
+            email: "test@ntpy.com",
+            password: "test",
             preferredTags: [1, 3, 5, 6],
             habits: [],
             motivation: [1]

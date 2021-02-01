@@ -16,12 +16,12 @@ const emptyHabit:IHabit =  {
 
 const HabitsScreen = (props: { authenticatedUser: IUser; navigation: string[]}) => {
     const [selectedTab, setSelectedTab] = useState('habits'); 
-    const [willCreateHabit, setWillCreateHabit] = useState(false); 
+    const [willEditHabit, setWillEditHabit] = useState(false); 
     const [habits, setHabits] = useState<IHabit[]>(props.authenticatedUser.habits);
     const [seclectedHabit, setSelectedHabit] = useState(emptyHabit); 
 
     const handleTriggerHabitCreate = ()=>{
-        setWillCreateHabit(true); 
+        setWillEditHabit(true); 
     }
     const handleHabitChange = (habit:IHabit|null)=>{
         console.log(`In here with habit=`, habit);       
@@ -30,12 +30,12 @@ const HabitsScreen = (props: { authenticatedUser: IUser; navigation: string[]}) 
             newHabits.push(habit);
             setHabits(newHabits); 
         }
-        setWillCreateHabit(false);
+        setWillEditHabit(false);
         setSelectedTab('calendar'); 
     }
 
     return (
-        !willCreateHabit?(
+        !willEditHabit?(
             <Container>
                 {selectedTab === 'habits'? (
                 <Habits_View habits={props.authenticatedUser.habits} onCreateHabitTriggered = {handleTriggerHabitCreate}/>
@@ -79,7 +79,7 @@ const HabitsScreen = (props: { authenticatedUser: IUser; navigation: string[]}) 
                 </Footer>
             </Container>
         ): (
-           <HabitEditor onHabitChanged={handleHabitChange} user={props.authenticatedUser}/>
+           <HabitEditor onHabitEdited={handleHabitChange} user={props.authenticatedUser}/>
         )
         
     )

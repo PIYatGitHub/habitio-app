@@ -9,7 +9,7 @@ import { Text } from 'native-base';
 
 interface IEditHabitProps {
     user: IUser; 
-    onHabitChanged: (habit:IHabit|null)=>void; 
+    onHabitEdited: (habit:IHabit|null)=>void; 
     habitToEdit?: IHabit; 
 }
 
@@ -32,7 +32,7 @@ const HabitEditor = (props:IEditHabitProps) => {
         setHabit(newHabit); 
     
         setCurrentStep(step); 
-        if(step === StatesEnum.backToAddScreen)  props.onHabitChanged(null);
+        if(step === StatesEnum.backToAddScreen)  props.onHabitEdited(null);
     }
 
     const handleHabitSchedultTypeChange = (scheduleType:ScheduleTypes, step:StatesEnum) => { //schedultype has changed! 
@@ -53,7 +53,9 @@ const HabitEditor = (props:IEditHabitProps) => {
          newHabit.habitSchedule = schedule; 
         setHabit(newHabit); 
         setCurrentStep(step); 
-        props.onHabitChanged(newHabit);
+        if(step !== StatesEnum.setScheduleType) {
+            props.onHabitEdited(newHabit);
+        }
     }
 
     if(currentStep === StatesEnum.setGoals ) {
@@ -76,7 +78,7 @@ const HabitEditor = (props:IEditHabitProps) => {
 
     if(currentStep === StatesEnum.setHours) {
         return(
-            <EditHabit_Hours onSetHabitHours={handleHabitHoursChange}/>
+            <EditHabit_Hours onSetHabitHours={handleHabitHoursChange} habitToEdit={habit}/>
         )
     }
 
