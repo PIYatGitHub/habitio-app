@@ -2,8 +2,11 @@ import { ActionSheet, Body, Button, CheckBox, Container, Content, ListItem, Root
 import { IHabit, IHabitShedule, ScheduleTypes, StatesEnum, weekDayMap } from '../../../constants/interfaces';
 import React, { Fragment, useState } from 'react';
 
+import DateTimePicker from '@react-native-community/datetimepicker';
 import EditHabit_HourPicker from './EditHabit_HourPicker';
 import { StyleSheet } from 'react-native';
+import { convertNumberToWeekday } from '../../../utils/convertWeekday';
+import { formatAMPM } from '../../../utils/convertAMPM';
 
 interface iSetHabitHoursProps {
     onSetHabitHours: (schedule:IHabitShedule[], step:StatesEnum)=>void
@@ -16,14 +19,20 @@ const emptySchedule:IHabitShedule = {
     toHour:''
 }
 const EditHabit_Hours = (props:iSetHabitHoursProps) => {
-    const [dailyHabitSchedules, setDailyHabitSchedules] = useState<IHabitShedule[]>([]);
+    const initialHabitsValue:IHabitShedule[] = props.habitToEdit?.habitScheduleType===ScheduleTypes.fluid?
+    [{day:0, fromHour:'10:30 am', toHour: ''}]: []; 
+    console.log(`what I am about to set here? `, initialHabitsValue);
+    
+    const [dailyHabitSchedules, setDailyHabitSchedules] = useState<IHabitShedule[]>(initialHabitsValue);
     const [activatedDows, setActivatedDows] = useState<string[]>([]);
-    const [selectedFluidDow, setSelectedFluidDow] = useState('Sunday');
+    const [selectedFluidDow, setSelectedFluidDow] = useState('Monday');
     const [selectedFluidHour, setSelectedFluidHour] = useState('10:30 am');
+    const [showHourPicker, setShowHourPicker] = useState(false);
 
     const daysOfTheWeek = Object.keys(weekDayMap); 
     
     const handleNextStep = (status:StatesEnum)=> {
+        console.log(`handlong the next step....`, dailyHabitSchedules);
         props.onSetHabitHours(dailyHabitSchedules,status); 
     }
 
@@ -113,14 +122,14 @@ const EditHabit_Hours = (props:iSetHabitHoursProps) => {
         ActionSheet.show(
         {
             options:[
-                { text: "Monday", icon: "checkmark", iconColor: "#2c8ef4" },
-                { text: "Tuesday", icon: "checkmark", iconColor: "#f42ced" },
-                { text: "Wednesday", icon: "checkmark", iconColor: "#ea943b" },
-                { text: "Thursday", icon: "checkmark", iconColor: "#ea943b" },
-                { text: "Friday", icon: "checkmark", iconColor: "#ea943b" },
-                { text: "Saturday", icon: "checkmark", iconColor: "#ea943b" },
-                { text: "Sunday", icon: "checkmark", iconColor: "#ea943b" },
-                { text: "Cancel", icon: "close", iconColor: "#25de5b" }
+                { text: "Monday", icon: "checkmark", iconColor: selectedFluidDow === 'Monday'? 'green': 'black' },
+                { text: "Tuesday", icon: "checkmark", iconColor: selectedFluidDow === 'Tuesday'? 'green': 'black' },
+                { text: "Wednesday", icon: "checkmark", iconColor: selectedFluidDow === 'Wednesday'? 'green': 'black' },
+                { text: "Thursday", icon: "checkmark", iconColor: selectedFluidDow === 'Thursday'? 'green': 'black' },
+                { text: "Friday", icon: "checkmark", iconColor: selectedFluidDow === 'Friday'? 'green': 'black' },
+                { text: "Saturday", icon: "checkmark", iconColor: selectedFluidDow === 'Saturday'? 'green': 'black' },
+                { text: "Sunday", icon: "checkmark", iconColor: selectedFluidDow === 'Sunday'? 'green': 'black' },
+                { text: "Cancel", icon: "close", iconColor: "red" }
               ],
             cancelButtonIndex: 7,
             title: "Pick a weekday"
@@ -128,7 +137,38 @@ const EditHabit_Hours = (props:iSetHabitHoursProps) => {
         buttonIndex => {
             console.log(`clicking on`, buttonIndex);
             //TODO if not equal to 7, then go and set the day. 
+            if(buttonIndex!==7){
+                const dow = convertNumberToWeekday(buttonIndex);
+                setSelectedFluidDow(dow); 
+                const schedules:IHabitShedule[] = Object.assign([], dailyHabitSchedules); 
+                schedules[0].day = buttonIndex;
+                setDailyHabitSchedules(schedules); 
+            }
         });
+    }
+
+    const setDatePicker = ()=> {
+        const date =new Date(Date.now()); 
+        const split = selectedFluidHour.split(' '); 
+        const hours = split[0].split(':').map(Number); 
+        if(split[1] === 'pm') {
+            hours[0] = Number(hours[0]) + 12; 
+        }
+        date.setHours(hours[0], hours[1]); 
+        return date;
+    }
+
+    const onHourChange = (value:number)=>{
+        setShowHourPicker(false);
+        if(value){
+            const date = new Date(value); 
+            const formattedHour:string = formatAMPM(date); 
+            setSelectedFluidHour(formattedHour);
+            const schedules:IHabitShedule[] = Object.assign([], dailyHabitSchedules); 
+            schedules[0].fromHour = formattedHour;
+            setDailyHabitSchedules(schedules); 
+        }
+        
     }
 
     return(
@@ -174,7 +214,17 @@ const EditHabit_Hours = (props:iSetHabitHoursProps) => {
                         </Root>
                         
                         <Text style={{lineHeight:38}}> at </Text>
-                        <Button transparent><Text>{selectedFluidHour}</Text></Button>
+                        <Button transparent onPress = {()=>setShowHourPicker(true)}><Text>{selectedFluidHour}</Text></Button>
+                        {showHourPicker && (
+                            <DateTimePicker
+                            testID="fluid_dateTimePicker"
+                            value={setDatePicker()}
+                            mode='time'
+                            is24Hour={false}
+                            display="default"
+                            onChange={(event:any)=>onHourChange(event.nativeEvent.timestamp)}
+                            />
+                        )}      
                     </Container>
                 </Content>
             </Container>

@@ -43,8 +43,13 @@ const HabitEditor = (props:IEditHabitProps) => {
        setCurrentStep(step); 
     }
 
-    const handleHasShownHabitExamples = (step:StatesEnum) =>{ //Do nothing here, user just wanted to see some examples! 
+    const handleHasShownHabitExamples = (step:StatesEnum, scheduleType?:ScheduleTypes) =>{ 
         console.log(`I am here with..., step:StatesEnum`, step);
+        if(scheduleType){
+         const newHabit: IHabit = Object.assign({}, habit);
+         newHabit.habitScheduleType = scheduleType; 
+         setHabit(newHabit); 
+        }
        setCurrentStep(step); 
     }
 
