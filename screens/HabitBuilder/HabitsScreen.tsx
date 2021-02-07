@@ -2,8 +2,10 @@ import { Button, Container, Content, Footer, FooterTab, Text } from 'native-base
 import { IHabit, ITag, IUser, IUserStateAction, ScheduleTypes } from '../../constants/interfaces';
 import React, { Fragment, useState } from 'react';
 
+import Calendar from './components/Calendar';
 import HabitEditor from './components/HabitEditor';
 import Habits_View from './components/Habits_View';
+import Settings from './components/Settings';
 import { connect } from 'react-redux';
 import { max } from 'react-native-reanimated';
 
@@ -55,29 +57,29 @@ const HabitsScreen = (props: {reduxUserState: (arg0: IUserStateAction) => void, 
         setWillEditHabit(false);
         setSelectedTab('calendar'); 
     }
-
+    const habitEditFromCalendar = ()=>{
+        console.log(`editing from the calendar...`);
+        
+    }
+    
     return (
         !willEditHabit?(
             <Container>
+                {selectedTab!=='settings'?(
+                <Button success onPress = {handleTriggerHabitCreate}>
+                    <Text>+</Text>
+                </Button> 
+                ):null}
                 {selectedTab === 'habits'? (
-                <Habits_View habits={props.authenticatedUser.habits} onCreateHabitTriggered = {handleTriggerHabitCreate}/>
+                <Habits_View habits={props.authenticatedUser.habits}/>
                 ):null}
 
                 {selectedTab === 'calendar'? (
-                    <Fragment>
-                        <Text>Hey from calendar!</Text>
-                        <Text>Hey from calendar!line 2</Text>
-                        <Text>Hey from calendar!line 3</Text>
-                    </Fragment>
-                    
+                   <Calendar onHabitEditRequired={habitEditFromCalendar} authenticatedUser = {props.authenticatedUser}/>
                 ):null}
 
                 {selectedTab === 'settings'? (
-                   <Fragment>
-                   <Text>Hey from settings!</Text>
-                   <Text>Hey from settings!line 2</Text>
-                   <Text>Hey from settings!line 3</Text>
-               </Fragment>
+                   <Settings  authenticatedUser = {props.authenticatedUser}/>
                 ):null}
                 <Footer>
                 <FooterTab>

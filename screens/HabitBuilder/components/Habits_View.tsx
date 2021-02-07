@@ -6,17 +6,13 @@ import { StyleSheet } from 'react-native';
 
 interface iHabitProps {
     habits: IHabit[]; 
-    onCreateHabitTriggered: ()=>void
 }
 
 const Habits_View = (props:iHabitProps) => {
     return (        
         <Container>
            {!props.habits.length ?(
-               <Container>
-                <Button success onPress = {props.onCreateHabitTriggered}>
-                    <Text>+</Text>
-                </Button>
+               <Container>               
                <Text>You don't have any habits yet.</Text>
                <Text>Add your first habit using the + sign.</Text>
                </Container>
@@ -55,7 +51,8 @@ const styles = StyleSheet.create({
         marginLeft:20,
         marginTop:5,
         borderWidth: 2,
-        borderColor:'red'
+        borderColor:'red',
+        
     },
     flexRowWrap: {
         display:'flex',

@@ -1,25 +1,28 @@
 import { Button, Container, Text } from 'native-base';
 import { StatusBar, StyleSheet } from 'react-native';
 
+import { Dimensions } from 'react-native';
 import React from 'react';
 import colours from '../../constants/Colours';
 
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
 const LandingScreen = (props:any) => {
-    //const products = initialProductsState; //TODO> hook this using useFetch to get data from the API! 
     return (
         <Container style={styles.container}> 
         <StatusBar barStyle="light-content" backgroundColor={colours.primary} hidden={true} showHideTransition='slide'/>           
-            <Text>Image placeholder</Text>
-                <Button onPress={()=>{
+            <Text style={styles.title}>Just Doooooo it</Text>
+            <Button bordered onPress={()=>{
                 props.navigation.push('LoginScreen');
-            }}>
-            <Text>Login</Text>
+            }} style={styles.authButton}>
+                <Text uppercase={false} style = {styles.centeredBtnText}>Login</Text>
             </Button>
 
-            <Button style={{backgroundColor:colours.primary}} onPress={()=>{
+            <Button style={styles.authButton} onPress={()=>{
                 props.navigation.push('RegisterScreen');
             }}>
-            <Text>Register</Text>
+            <Text uppercase={false} style = {styles.centeredBtnText}>Register</Text>
             </Button>
         </Container>
     )
@@ -30,8 +33,26 @@ const styles = StyleSheet.create({
         display:'flex',
         flexDirection:'column',
         justifyContent:'flex-start',
-        borderWidth: 2,
-        borderColor:'red'
+        backgroundColor: colours.dkGray
+    }, 
+    title: {
+        color: 'white',
+        textAlign:'center',
+        fontSize: windowWidth*0.12,
+        marginTop: windowHeight*0.35,
+        marginBottom: windowHeight*0.2,
+    },
+    authButton: {
+        borderRadius: 20,
+        width: windowWidth * 0.6,
+        marginLeft: windowWidth *0.2,
+        marginBottom: windowHeight*0.05
+    },
+    centeredBtnText: {
+        color:'white',
+        width: '100%',
+        textAlign: 'center',
+        fontSize: windowHeight*0.03
     }
   });
 
