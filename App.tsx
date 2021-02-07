@@ -1,15 +1,22 @@
-import React, { useEffect } from 'react';
 import { persistor, store } from './constants/store';
 
-import { AppLoading } from 'expo';
 import HabitioNavigator from './navigation/HabitioNavigator';
 import { PersistGate } from 'redux-persist/integration/react';
 import { Provider } from 'react-redux';
-import { StatusBar } from 'expo-status-bar';
+import React from 'react';
+import { Spinner } from 'native-base';
 import { StyleSheet } from 'react-native';
 import { useFonts } from 'expo-font';
 
 const App = () => {
+  let [fontsLoaded] = useFonts({
+    'Roboto-Medium': require('./assets/fonts/Roboto-Medium.ttf'),
+    'Roboto_medium': require('./assets/fonts/Roboto-Medium.ttf'),
+  });
+
+  if (!fontsLoaded) {
+    return <Spinner color='green' />
+  }
 
   return (
     <Provider store={store}>
