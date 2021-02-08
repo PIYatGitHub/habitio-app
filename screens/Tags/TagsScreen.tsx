@@ -1,8 +1,10 @@
-import { Button, Container, Content, Text } from 'native-base';
+import { Button, Container, Content, Icon, Text } from 'native-base';
+import {Dimensions, StyleSheet} from 'react-native';
 import { ITag, IUser, IUserStateAction } from '../../constants/interfaces';
 import React, { useState } from 'react';
 
-import {StyleSheet} from 'react-native';
+import colours from '../../constants/Colours';
+import { commonStyles } from '../styles/commonStyles';
 import { connect } from 'react-redux';
 
 const generateTags = (name:string):ITag[]=> {
@@ -27,15 +29,14 @@ const generateTags = (name:string):ITag[]=> {
     ]
 }
 
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 const TagsScreen = (props: {reduxUserState: (arg0: IUserStateAction) => void, authenticatedUser: IUser; navigation: string[]}) => {
     const [selectedTags, setSelectedTags] = useState<number []>(props.authenticatedUser.preferredTags);
     const tags = generateTags(props.authenticatedUser.firstName); 
      
     const handleSubmit = async ()=> {
-        // TODO make an api call here 
-       
-        //TODO go to motivation screen!
         const userPayload:IUser = Object.assign({}, props.authenticatedUser); 
         userPayload.preferredTags = selectedTags; 
         const userStatePayload:IUserStateAction = {loggedIn:true, type: "SET_TAGS", user:userPayload};
@@ -44,7 +45,6 @@ const TagsScreen = (props: {reduxUserState: (arg0: IUserStateAction) => void, au
         props.navigation.push('MotivationScreen');
     }
     const handleTagClick = (tagId:number)=>{
-        console.log(`clicking on tag with id...`, tagId);
         let newTags:number[] = Object.assign([], selectedTags); 
 
         if(!selectedTags.includes(tagId)) {
@@ -61,42 +61,65 @@ const TagsScreen = (props: {reduxUserState: (arg0: IUserStateAction) => void, au
     }
 
     return (
-        <Container style={styles.container}>
-            <Button onPress={handleSubmit} transparent><Text>Next</Text></Button>
-            <Container style={styles.tagList}>
-                {tags.map(tag=>{
-                    return(
-                        <Button style={styles.tag} onPress = {()=>{handleTagClick(tag.tagId)}} key={tag.tagId} bordered = {!selectedTags.includes(tag.tagId)}>
-                            <Text>{tag.tagName}</Text>
-                        </Button>                            
-                    )
-                })}
+        <Container>
+            <Container style={styles.actionBandSingleAction}>
+                <Button onPress={handleSubmit} transparent><Text style={styles.centeredBtnGreenText} uppercase={false}>Next</Text></Button>
             </Container>
-            <Button>
-                <Text>Add your own</Text>
+            <Container>
+                <Text>How can we adddress you?</Text>
+                <Text>Select all that apply. You can edit later in settings.</Text>
+            </Container>
+            <Container style={styles.tagList}>    
+            {tags.map(tag=>{
+            return(
+                <Button style={!selectedTags.includes(tag.tagId) ? styles.tagBtnUnSelected: styles.tagBtnSelected} onPress = {()=>{handleTagClick(tag.tagId)}} key={tag.tagId} bordered = {!selectedTags.includes(tag.tagId)}>
+                    <Text 
+                    style={!selectedTags.includes(tag.tagId) ? styles.tagTextUnSelected: styles.tagTextSelected}
+                    uppercase={false}>
+                    {tag.tagName}
+                    </Text>
+                </Button>                            
+                )
+            })}
+               
+            </Container>
+            <Button transparent>
+                <Icon name='add-circle' style={{color: colours.green, marginRight:0}}/>
+                <Text uppercase={false} style={styles.centeredBtnGreenText}>Add Your Own</Text>
             </Button>
         </Container>
     )
 }
 
 const styles = StyleSheet.create({
-    container: {
-        display:'flex',
-        flexDirection:'column',
-        justifyContent:'flex-start',
-        alignContent:'flex-start',
-        alignItems:'flex-start'
-    },
     tagList: {
         marginTop:0,
         display: 'flex',
         flexDirection:'row',
         flexWrap:'wrap',
-        alignContent:'center'
+        alignContent:'center',
+        flexGrow:1, 
+        height: windowHeight *0.65,
+        maxHeight: windowHeight *0.65,
+        marginBottom: windowHeight*0.03
     }, 
-    tag: {
-        margin:5
-    }
+    tagBtnSelected: {
+        margin:5,
+        backgroundColor: colours.green,
+        borderRadius:7
+    },
+    tagBtnUnSelected: {
+        margin:5,
+        backgroundColor: 'white',
+        borderRadius:7
+    },
+    tagTextSelected: {
+        color:'white'
+    },
+    tagTextUnSelected: {
+        color: colours.green
+    },
+    ...commonStyles
   });
 
 const mapStateToProps = (state: { authReducer: { user:IUser }; }) => {

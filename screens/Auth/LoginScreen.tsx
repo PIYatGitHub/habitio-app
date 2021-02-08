@@ -1,16 +1,17 @@
-import { Button, Container, Content, Form, Input, Item, Text } from 'native-base';
-import { IUser, IUserStateAction, MotivationTypes } from '../../constants/interfaces';
+import { Button, Container, Content, Form, Input, Item, Label, Text } from 'native-base';
+import { IUser, IUserStateAction } from '../../constants/interfaces';
 import React, { useState } from 'react';
 
 import { StatusBar } from 'react-native';
 import { StyleSheet } from 'react-native';
 import colours from '../../constants/Colours';
+import { commonStyles } from '../styles/commonStyles';
 import { connect } from 'react-redux';
 import { emptyUser } from '../../reducers/userStateReducer';
 import storage from '../../constants/db';
 
 const LoginScreen = (props: { reduxUserState: (arg0: IUserStateAction) => void; navigation: string[]; authenticatedUser:IUser }) => {
-    const [email, setEmail] = useState('test@ntpy.com');
+    const [email, setEmail] = useState('test@ntpy.com');//todo remove thse! 
     const [password, setPassword] = useState('test');
 
     const handleSubmit = async()=> {
@@ -52,27 +53,39 @@ const LoginScreen = (props: { reduxUserState: (arg0: IUserStateAction) => void; 
         props.navigation.push('LandingScreen');
     }
 
+    const setDisabled = ()=>{
+        return email.length === 0 || password.length === 0
+    }
+
     return (
         <Container>
-            <StatusBar barStyle="light-content" backgroundColor={colours.primary} hidden={false}/>
+            <StatusBar barStyle="dark-content" backgroundColor='white' hidden={false}/>
             <Container style={styles.container}>
-                <Container>
-                    <Button onPress={handleCancel}><Text>Cancel</Text></Button>
-                    <Button onPress={handleSubmit}><Text>Sign in</Text></Button>
+                <Container style={styles.actionBandMultipleAction}>
+                    <Button transparent onPress={handleCancel}><Text style={styles.centeredBtnGrayText} uppercase={false}>Cancel</Text></Button>
+                    <Button transparent onPress={handleSubmit}><Text
+                     style={setDisabled()?styles.centeredBtnGreenTextDisabled:styles.centeredBtnGreenText} 
+                     uppercase={false}>
+                         Sign in
+                     </Text>
+                     </Button>
                 </Container>
                 <Content>
-                    <Form>                 
-                        <Item>
-                        <Input placeholder="Email" 
-                        textContentType={'emailAddress'} keyboardType='email-address'
-                        value = {email}
-                        onChangeText={(e)=>setEmail(e)}
-                        />
+                    <Form>
+                        <Item stackedLabel style={styles.noBBW} >
+                            <Label style={styles.labels}>First name</Label>
+                            <Input 
+                            textContentType={'emailAddress'} keyboardType='email-address'
+                            value = {email}
+                            style={styles.borderedInput}
+                            onChangeText={(e)=>setEmail(e)}
+                            />                
                         </Item>
-                        <Item last>
-                        <Input placeholder="Password" 
-                        value = {password}
-                        secureTextEntry = {true} onChangeText={(e)=>setPassword(e)}/>
+                        <Item stackedLabel style={styles.noBBW}>
+                            <Label style={styles.labels}>Password</Label>
+                            <Input style={styles.borderedInput} secureTextEntry = {true}
+                            value={password}
+                            onChangeText={(e)=>setPassword(e)}/>
                         </Item>
                     </Form>
                 </Content>
@@ -98,6 +111,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
 const styles = StyleSheet.create({
     container: {
         paddingTop:0
-    }
+    },
+    ...commonStyles
   });
   
