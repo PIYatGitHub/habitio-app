@@ -1,14 +1,18 @@
-import { Button, Container, Icon, Text } from 'native-base';
+import { Button, Container, Content, Icon, Text } from 'native-base';
+import { Dimensions, StyleSheet } from 'react-native';
 import React, { useState } from 'react';
 
 import { IUser } from '../../../constants/interfaces';
 import Settings_DateFormat from './Settings_DateFormat';
 import Settings_Prompts from './Settings_Prompts';
-import { StyleSheet } from 'react-native';
+import colours from '../../../constants/Colours';
+import { commonStyles } from '../../styles/commonStyles';
 
 interface ISettingsProps {
     authenticatedUser: IUser
 }
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 const Settings = (props: ISettingsProps) => {
     const [willCustomizePrompts, setWillCustomizePrompts] = useState(false);
@@ -31,15 +35,21 @@ const Settings = (props: ISettingsProps) => {
         
     return (          
         <Container>
-        <Text>Settings</Text>
-        <Button block bordered style = {styles.btnSpaceBtw} onPress={()=> setWillCustomizePrompts(true)}>
-            <Text>Customize your prompts</Text>
-            <Icon name='arrow-forward' />
-       </Button>
-        <Button block bordered style = {styles.btnSpaceBtw} onPress={()=> setWillCustomizeDate(true)}>
-            <Text>Time preferece (MM/DD/YY)</Text>
-            <Icon name='arrow-forward'/>
-       </Button>        
+            <Container style={styles.actionBandSingleAction}>
+                <Text style={{color:'transparent', width:'33.33%'}}>Placeholder</Text>
+                <Text style={{...styles.centeredBtnGrayText, lineHeight: windowHeight*0.08, textAlign:'center', width:'33.33%'}}>Settings</Text>
+                <Text style={{color:'transparent', width:'33.34%'}}>Placeholder</Text>
+            </Container>
+            <Content>
+                 <Button block bordered style = {{...styles.btnSpaceBtw, borderBottomWidth:0, borderColor: colours.dkGray}} onPress={()=> setWillCustomizePrompts(true)}>
+                    <Text style={styles.centeredBtnGrayText} uppercase={false}>Customize your prompts</Text>
+                    <Icon type='FontAwesome5' name='chevron-right' style={{color:colours.dkGray}} />
+                </Button>
+                <Button block bordered style = {{...styles.btnSpaceBtw, borderColor: colours.dkGray}} onPress={()=> setWillCustomizeDate(true)}>
+                    <Text style={styles.centeredBtnGrayText} uppercase={false}>Time preferece (MM/DD/YY)</Text>
+                    <Icon type='FontAwesome5' name='chevron-right' style={{color:colours.dkGray}}/>
+                </Button>       
+            </Content>        
        </Container>       
     )
 }
@@ -57,6 +67,7 @@ const styles = StyleSheet.create({
     },
     btnSpaceBtw: {
         justifyContent:'space-between'
-    }
+    },
+    ...commonStyles
   });
   

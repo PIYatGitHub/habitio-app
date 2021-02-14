@@ -1,14 +1,17 @@
-import { Button, Container, Form, Icon, Input, Item, Text } from 'native-base';
+import { Button, Container, Content, Form, Icon, Input, Item, Label, Text } from 'native-base';
+import { Dimensions, StyleSheet } from 'react-native';
 import { IHabit, StatesEnum } from '../../../constants/interfaces';
 import React, { useState } from 'react';
 
-import { StyleSheet } from 'react-native';
+import colours from '../../../constants/Colours';
+import { commonStyles } from '../../styles/commonStyles';
 
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 interface IEditHabitGoalsProps {
     onSetHabitGoals: (title:string, goals:string[], step:StatesEnum)=>void
     habitToEdit?: IHabit; 
 }
-
 
 const EditHabit_Goals = (props:IEditHabitGoalsProps) => {
     const [title, setTitle] = useState(props.habitToEdit? props.habitToEdit.title: ''); 
@@ -27,30 +30,44 @@ const EditHabit_Goals = (props:IEditHabitGoalsProps) => {
     
     return(
     <Container style={styles.container}>
-        <Container>
-            <Button onPress={()=>handleNextStep(false)}><Text>Cancel</Text></Button>
-            <Button onPress={()=>handleNextStep(true)}><Text>Next</Text></Button>
+        <Container style={styles.actionBandMultipleAction}>
+            <Button onPress={()=>handleNextStep(false)} transparent style={{width:'33.33%', height:'100%'}}>
+                <Text uppercase={false} style={{...styles.centeredBtnGrayText ,width:'100%', textAlign:'left'}}>Cancel</Text>
+            </Button>
+            <Text style={{...styles.centeredBtnGrayText, width:'33.33%', lineHeight:windowHeight*0.08, textAlign:'center'}}>Add habit</Text>
+            <Button onPress={()=>handleNextStep(true)} transparent style={{width:'33.34%', height:'100%'}}>
+                <Text style={{...styles.centeredBtnGreenText,width:'100%', textAlign:'right'}} uppercase={false}>Next</Text>
+            </Button>
         </Container>
         <Container>
-            <Form>
-                <Item>
-                    <Input onChangeText={(e)=>setTitle(e)} placeholder='Title' value={title}/>
-                </Item>
-                <Item>
-                    <Text>List three or more goals/feelings in creating this habit.
-                        (This helps us motivate you better).</Text>
-                </Item>
-                <Item>
-                    <Input onChangeText={(e)=>handleGoalChange(0,e)} placeholder='Goal 1' value={goals[0]}/>
-                </Item>
-                <Item>
-                    <Input onChangeText={(e)=>handleGoalChange(1,e)} placeholder='Goal 2' value={goals[1]}/>
-                </Item>
-                <Item last>
-                    <Input onChangeText={(e)=>handleGoalChange(2,e)} placeholder='Goal 3' value={goals[2]}/>
-                </Item>
-            </Form>
-            <Button><Text><Icon name='add'/>{` Add your own`}</Text></Button>
+            <Content>
+                <Form>
+                    <Item stackedLabel style={styles.noBBW} >
+                        <Label style={styles.labels}>Title</Label>
+                        <Input onChangeText={(e)=>setTitle(e)} value={title}
+                        style={styles.borderedInput}
+                        />      
+                    </Item>
+    
+                    <Item style={{...styles.noBBW, marginTop:40, marginBottom:20}}>
+                        <Text style={{color:colours.ltGray, fontSize:20}}>List three or more goals/feelings in creating this habit.
+                            (This helps us motivate you better).</Text>
+                    </Item>
+                    <Item style={styles.noBBW}>
+                        <Input placeholder='Getting in shape' onChangeText={(e)=>handleGoalChange(0,e)} style={styles.borderedInput} value={goals[0]}/>
+                    </Item>
+                    <Item style={styles.noBBW}>
+                        <Input placeholder='buns of steel' onChangeText={(e)=>handleGoalChange(1,e)} style={styles.borderedInput} value={goals[1]}/>
+                    </Item>
+                    <Item last style={{...styles.noBBW, marginLeft:0}}>
+                        <Input placeholder='feeling great about myself' onChangeText={(e)=>handleGoalChange(2,e)} style={styles.borderedInput} value={goals[2]}/>
+                    </Item>
+                </Form>
+                <Button transparent style={{marginTop:20}}>
+                        <Icon name='add-circle' style={{color: colours.green, marginRight:0}}/>
+                        <Text uppercase={false} style={styles.centeredBtnGreenText}>Add More</Text>
+                    </Button>
+            </Content>            
         </Container>
     </Container>
     )
@@ -75,6 +92,7 @@ const styles = StyleSheet.create({
         fontSize: 15,
         color: "#fff",
         lineHeight: 20
-    }
+    },
+    ...commonStyles
   });
   

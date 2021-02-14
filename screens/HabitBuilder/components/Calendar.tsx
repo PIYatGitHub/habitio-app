@@ -1,10 +1,14 @@
-import { Button, Container, Text } from 'native-base';
+import { Button, Container, Content, Text } from 'native-base';
+import { Dimensions, StyleSheet } from 'react-native';
 import React, { useState } from 'react';
 
 import Habits_View from './Habits_View';
 import { IUser } from '../../../constants/interfaces';
-import { StyleSheet } from 'react-native';
+import colours from '../../../constants/Colours';
+import { commonStyles } from '../../styles/commonStyles';
 
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 interface ICalendarProps {
     authenticatedUser: IUser;
     onHabitEditRequired: ()=>void //when they require an edit on the habit
@@ -21,18 +25,31 @@ const Calendar = (props:ICalendarProps) => {
 
     return (        
         <Container>
-                <Container>
+                <Content>
+                    {!props.authenticatedUser.habits.length? (
+                        <Habits_View habits={props.authenticatedUser.habits}/>   
+                    ):(
                     <Container>
-                       <Button transparent onPress={handleDayClick}><Text>Day</Text></Button>
-                        <Button transparent onPress={handleWeekClick}><Text>Week</Text></Button>
-                    </Container>
-                {isWeek? ( <Container>
-                    <Text>Week of Jan 9</Text>
-                </Container>):null}               
-            </Container>
-           
-            <Habits_View habits={props.authenticatedUser.habits}/>
-
+                        <Container style={{display:'flex', flexDirection:'row', justifyContent:'space-evenly', flexGrow:1,height:48,maxHeight:48}}>
+                            <Button transparent onPress={handleDayClick} style={!isWeek?{
+                                borderBottomWidth:1, borderBottomColor:colours.green, width:windowWidth*0.25
+                            }:{borderBottomWidth:1, borderBottomColor:'white', width:windowWidth*0.25}}>
+                                <Text style={styles.centeredBtnGrayText}  uppercase={false}>Day</Text>
+                            </Button>
+                            <Button transparent onPress={handleWeekClick} style={isWeek?{
+                                borderBottomWidth:1, borderBottomColor:colours.green, width:windowWidth*0.25
+                            }:{borderBottomWidth:1, borderBottomColor:'white', width:windowWidth*0.25}}>
+                                <Text style={styles.centeredBtnGrayText} uppercase={false}>Week</Text>
+                            </Button>
+                            <Text style={{...styles.centeredBtnGrayText, lineHeight:48, textAlign:'right', width:windowWidth*0.5, color:isWeek?colours.dkGray:'transparent'}}>Week of Jan 9</Text>
+                        </Container>
+                        <Content>
+                            <Habits_View habits={props.authenticatedUser.habits} filterByDay={!isWeek} filterByWeek={isWeek}/>
+                        </Content>
+                        
+                    </Container> 
+                )}
+            </Content>         
         </Container>         
     )
 }
@@ -47,6 +64,7 @@ const styles = StyleSheet.create({
         marginTop:5,
         borderWidth: 2,
         borderColor:'red'
-    }
+    },
+    ...commonStyles
   });
   

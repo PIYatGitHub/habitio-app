@@ -1,9 +1,13 @@
 import { Button, Container, Content, Text } from 'native-base';
+import {Dimensions, StyleSheet} from 'react-native';
 import { IUser, IUserStateAction } from '../../constants/interfaces';
 import React, { useState } from 'react';
 
-import {StyleSheet} from 'react-native';
+import { commonStyles } from '../styles/commonStyles';
 import { connect } from 'react-redux';
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 const TagsScreen = (props: { reduxUserState: (arg0: IUserStateAction) => void, authenticatedUser: IUser; navigation: string[]}) => {
     const [selectedMotivations, setSelectedMotivations] = useState<number []>(props.authenticatedUser.motivation);
@@ -34,29 +38,59 @@ const TagsScreen = (props: { reduxUserState: (arg0: IUserStateAction) => void, a
     }
 
     return (
-        <Container style = {styles.container}>
-                <Button onPress={handleSubmit} transparent><Text>Next</Text></Button>
-                 <Content>
-                 <Text>What motivates you</Text>
-                 <Text>Select one or both. You can edit later in settings.</Text>
-                 <Button onPress = {()=>{handleMotivationClick(1)}} key={1} bordered = {!selectedMotivations.includes(1)}>
-                    <Text>The carrot</Text>
+        <Container>
+            <Container style={styles.actionBandSingleAction}>
+                <Button onPress={handleSubmit} transparent><Text style={styles.centeredBtnGreenText} uppercase={false}>Next</Text></Button>
+            </Container>
+                
+            <Content style={{paddingLeft:10}}>
+                <Text style={styles.titleText}>What motivates you?</Text>
+                <Text style={styles.subtitleText}>Select one or both. You can edit later in settings.</Text>
+                
+                <Container style={styles.buttonRowContainer}>
+                <Button 
+                style={!selectedMotivations.includes(1) ? styles.greenBtnUnSelected: styles.greenBtnSelected}
+                onPress = {()=>{handleMotivationClick(1)}}
+                key={1}
+                bordered = {!selectedMotivations.includes(1)}>
+                    <Text uppercase={false} 
+                     style={!selectedMotivations.includes(1) ? styles.greenBtnTextUnSelected: styles.greenBtnTextSelected}
+                    >
+                        The Carrot
+                    </Text>
                 </Button>     
 
-                <Button onPress = {()=>{handleMotivationClick(2)}} key={2} bordered = {!selectedMotivations.includes(2)}>
-                    <Text>The stick</Text>
+                <Button 
+                style={!selectedMotivations.includes(2) ? styles.greenBtnUnSelected: styles.greenBtnSelected}
+                onPress = {()=>{handleMotivationClick(2)}}
+                key={2}
+                bordered = {!selectedMotivations.includes(2)}>
+                    <Text uppercase={false} 
+                     style={!selectedMotivations.includes(2) ? styles.greenBtnTextUnSelected: styles.greenBtnTextSelected}
+                    >
+                        The Stick
+                    </Text>
                 </Button>     
-                </Content>
+                </Container>
+                
+
+                 <Button key={3} transparent>
+                    <Text uppercase={false} style={{...styles.centeredBtnGreenText, marginLeft:0,paddingLeft:5, marginTop:20}}>Request add custom</Text>
+                </Button>  
+            </Content>
         </Container>
     )
 }
 
 const styles = StyleSheet.create({
-    container: {
+    buttonRowContainer: {
         display:'flex',
-        flexDirection:'column',
-        justifyContent:'flex-start'
-    }
+        flexDirection:'row',
+        height: 48,
+        marginTop:20, 
+        marginBottom:0,
+    },
+   ...commonStyles
   });
 
 const mapStateToProps = (state: { authReducer: { user:IUser }; }) => {

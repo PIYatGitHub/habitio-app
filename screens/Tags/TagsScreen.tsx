@@ -65,28 +65,31 @@ const TagsScreen = (props: {reduxUserState: (arg0: IUserStateAction) => void, au
             <Container style={styles.actionBandSingleAction}>
                 <Button onPress={handleSubmit} transparent><Text style={styles.centeredBtnGreenText} uppercase={false}>Next</Text></Button>
             </Container>
-            <Container>
-                <Text>How can we adddress you?</Text>
-                <Text>Select all that apply. You can edit later in settings.</Text>
+            <Container style={{
+                marginLeft:10
+            }}>
+                <Content>
+                    <Text style={styles.titleText}>How can we adddress you?</Text>
+                    <Text style={styles.subtitleText}>Select all that apply. You can edit later in settings.</Text>
+                    <Container style={styles.tagList}>    
+                        {tags.map(tag=>{
+                        return(
+                            <Button style={!selectedTags.includes(tag.tagId) ? styles.greenBtnUnSelected: styles.greenBtnSelected} onPress = {()=>{handleTagClick(tag.tagId)}} key={tag.tagId} bordered = {!selectedTags.includes(tag.tagId)}>
+                                <Text 
+                                style={!selectedTags.includes(tag.tagId) ? styles.greenBtnTextUnSelected: styles.greenBtnTextSelected}
+                                uppercase={false}>
+                                {tag.tagName}
+                                </Text>
+                            </Button>                            
+                            )
+                        })}               
+                    </Container>
+                    <Button transparent>
+                        <Icon name='add-circle' style={{color: colours.green, marginRight:0}}/>
+                        <Text uppercase={false} style={styles.centeredBtnGreenText}>Add Your Own</Text>
+                    </Button>
+                </Content>                
             </Container>
-            <Container style={styles.tagList}>    
-            {tags.map(tag=>{
-            return(
-                <Button style={!selectedTags.includes(tag.tagId) ? styles.tagBtnUnSelected: styles.tagBtnSelected} onPress = {()=>{handleTagClick(tag.tagId)}} key={tag.tagId} bordered = {!selectedTags.includes(tag.tagId)}>
-                    <Text 
-                    style={!selectedTags.includes(tag.tagId) ? styles.tagTextUnSelected: styles.tagTextSelected}
-                    uppercase={false}>
-                    {tag.tagName}
-                    </Text>
-                </Button>                            
-                )
-            })}
-               
-            </Container>
-            <Button transparent>
-                <Icon name='add-circle' style={{color: colours.green, marginRight:0}}/>
-                <Text uppercase={false} style={styles.centeredBtnGreenText}>Add Your Own</Text>
-            </Button>
         </Container>
     )
 }
@@ -101,24 +104,8 @@ const styles = StyleSheet.create({
         flexGrow:1, 
         height: windowHeight *0.65,
         maxHeight: windowHeight *0.65,
-        marginBottom: windowHeight*0.03
+        marginBottom: windowHeight*0.015
     }, 
-    tagBtnSelected: {
-        margin:5,
-        backgroundColor: colours.green,
-        borderRadius:7
-    },
-    tagBtnUnSelected: {
-        margin:5,
-        backgroundColor: 'white',
-        borderRadius:7
-    },
-    tagTextSelected: {
-        color:'white'
-    },
-    tagTextUnSelected: {
-        color: colours.green
-    },
     ...commonStyles
   });
 

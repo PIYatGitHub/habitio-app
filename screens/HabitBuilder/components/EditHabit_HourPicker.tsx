@@ -1,9 +1,10 @@
-import { Button, Container, Text } from 'native-base';
+import { Button, Container, Content, Text, Toast } from 'native-base';
 import { IHabitShedule, ScheduleTypes } from '../../../constants/interfaces';
 import React, { useState } from 'react';
 
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { StyleSheet } from 'react-native';
+import { commonStyles } from '../../styles/commonStyles';
 import { convertNumberToWeekday } from '../../../utils/convertWeekday';
 import { formatAMPM } from '../../../utils/convertAMPM';
 
@@ -25,6 +26,7 @@ const EditHabit_HourPicker = (props:IHabitHourPickerProps) => {
             console.log(`formatted hour reads: `, formattedHour);
             setShowHourFrom(false); 
             setShowHourTo(false); 
+           
             if(isHourFrom) 
                 props.onHbitHoursChanged(formattedHour, props.selectedHabitSchedule.toHour, convertNumberToWeekday(props.selectedHabitSchedule.day))
             else
@@ -67,8 +69,9 @@ const EditHabit_HourPicker = (props:IHabitHourPickerProps) => {
 
     return(
         <Container style={styles.container}>
+            <Content>
             <Button onPress={()=>setShowHourFrom(!showSetHourFrom)} transparent>
-                <Text>
+                <Text uppercase={false} style={styles.centeredBtnGreenText}>
                     Set from hour
                 </Text>
             </Button>
@@ -84,7 +87,7 @@ const EditHabit_HourPicker = (props:IHabitHourPickerProps) => {
             )}
 
             <Button onPress={()=>setShowHourTo(!showSetHourFrom)} transparent>
-                <Text>
+                <Text uppercase={false} style={styles.centeredBtnGreenText}>
                     Set to hour
                 </Text>
             </Button>
@@ -98,6 +101,8 @@ const EditHabit_HourPicker = (props:IHabitHourPickerProps) => {
                 onChange={(event:any)=>onHourChange(event.nativeEvent.timestamp, false)}
                 />
             )}      
+            </Content>
+           
             </Container>
     )
 }
@@ -106,6 +111,7 @@ export default EditHabit_HourPicker;
 const styles = StyleSheet.create({
     container: {
         paddingTop:0
-    }
+    },
+    ...commonStyles
   });
   

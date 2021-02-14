@@ -1,13 +1,17 @@
-import { ActionSheet, Body, Button, CheckBox, Container, Content, ListItem, Root, Text } from 'native-base';
+import { ActionSheet, Body, Button, CheckBox, Container, Content, Icon, ListItem, Root, Text } from 'native-base';
+import { Dimensions, StyleSheet } from 'react-native';
 import { IHabit, IHabitShedule, ScheduleTypes, StatesEnum, weekDayMap } from '../../../constants/interfaces';
 import React, { Fragment, useState } from 'react';
 
 import DateTimePicker from '@react-native-community/datetimepicker';
 import EditHabit_HourPicker from './EditHabit_HourPicker';
-import { StyleSheet } from 'react-native';
+import colours from '../../../constants/Colours';
+import { commonStyles } from '../../styles/commonStyles';
 import { convertNumberToWeekday } from '../../../utils/convertWeekday';
 import { formatAMPM } from '../../../utils/convertAMPM';
 
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 interface iSetHabitHoursProps {
     onSetHabitHours: (schedule:IHabitShedule[], step:StatesEnum)=>void
     habitToEdit?:IHabit; 
@@ -173,58 +177,62 @@ const EditHabit_Hours = (props:iSetHabitHoursProps) => {
 
     return(
     <Container style={styles.container}>
-        <Container>
-            <Button onPress={()=>handleNextStep(StatesEnum.setScheduleType)}><Text>Back arrow</Text></Button>
-            {dailyHabitSchedules.length ? <Button onPress={()=>handleNextStep(StatesEnum.habitCreated)}><Text>Next</Text></Button> : null}
+        <Container style={styles.actionBandMultipleAction}>
+            <Button onPress={()=>handleNextStep(StatesEnum.setScheduleType)} transparent style={{height:'100%', width:'33.33%'}}>
+                <Icon style={{color:colours.dkGray, fontSize:20}} type='FontAwesome5' name='chevron-left'/>
+            </Button>
+            <Text style={{...styles.centeredBtnGrayText, lineHeight:0.08*windowHeight,width:'33.33%', textAlign:'center'}}>Add habit</Text>
+            {dailyHabitSchedules.length ? <Button style={{height:'100%',width:'33.34%'}} transparent onPress={()=>handleNextStep(StatesEnum.habitCreated)}>
+                <Text uppercase={false} style={{...styles.centeredBtnGreenText, width:'100%', textAlign:'right'}}>Next</Text>
+            </Button> : null}
         </Container>
-        {props.habitToEdit?.habitScheduleType === ScheduleTypes.fixed? (
-        <Container>
-            <Content>
-                {daysOfTheWeek.map(dow=>{
-                return(
-                    <ListItem key={dow} onPress={()=>{handleDowClick(dow)}}>
-                        <CheckBox checked={activatedDows.includes(dow)}/>
-                        <Body>
-                            <Text>{dow}</Text>
-                            {activatedDows.includes(dow)?(
-                                <Fragment>
-                                     <EditHabit_HourPicker  selectedHabitSchedule = {getCurrentSchedule(dow)}
-                                     onHbitHoursChanged={handleHoursChanged}
-                                     />
-                                </Fragment>
-                                
-                            ):null}
-                        </Body>
-                    </ListItem>
-                )
-            })}
-            </Content>         
-        </Container>
+        {props.habitToEdit?.habitScheduleType === ScheduleTypes.fixed? (        
+        <Content>
+            {daysOfTheWeek.map(dow=>{
+            return(
+                <ListItem style={{height:activatedDows.includes(dow)?150:48}} key={dow} onPress={()=>{handleDowClick(dow)}}>
+                    <CheckBox checked={activatedDows.includes(dow)} color={colours.green} style={{borderColor:colours.green }}/>
+                    <Body>
+                        <Text style={{marginLeft:15, color:colours.dkGray}}>{dow}</Text>
+                        {activatedDows.includes(dow)?(                            
+                            <EditHabit_HourPicker  selectedHabitSchedule = {getCurrentSchedule(dow)}
+                            onHbitHoursChanged={handleHoursChanged}
+                            />                            
+                        ):null}
+                    </Body>
+                </ListItem>
+            )
+        })}
+        </Content>   
         ): null}
         {props.habitToEdit?.habitScheduleType === ScheduleTypes.fluid?(
-            <Container style={styles.fluidHabitLine}>
-                <Content>
-                    <Text style={styles.centerTxt}>I will plan my weekly schedule on </Text>
-                    <Container>
-                        <Root>
-                            <Button textStyle={styles.greenTxtBtn} transparent 
-                        onPress={showBottomScheet}>
-                            <Text>{selectedFluidDow}</Text>
-                        </Button>
-                        </Root>
-                        
-                        <Text style={{lineHeight:38}}> at </Text>
-                        <Button transparent onPress = {()=>setShowHourPicker(true)}><Text>{selectedFluidHour}</Text></Button>
-                        {showHourPicker && (
-                            <DateTimePicker
-                            testID="fluid_dateTimePicker"
-                            value={setDatePicker()}
-                            mode='time'
-                            is24Hour={false}
-                            display="default"
-                            onChange={(event:any)=>onHourChange(event.nativeEvent.timestamp)}
-                            />
-                        )}      
+            <Container style={{marginLeft:windowWidth*0.05, marginRight:windowWidth*0.05}}>
+                <Content style={{height:windowHeight*0.35}}>
+                    <Text style={{...styles.centeredBtnGrayText, fontSize:16}}>I will plan my weekly schedule on </Text>
+                    <Container style={{maxHeight:150}}>
+                        <Root >
+                            <Container style={{display:'flex', flexDirection:'row', maxHeight:48, height:48}}>
+                                <Button textStyle={styles.greenTxtBtn} transparent 
+                                onPress={showBottomScheet}>
+                                <Text uppercase={false} style={styles.centeredBtnGreenText}>{selectedFluidDow}</Text>
+                            </Button>
+                            <Text style={{lineHeight:48}}> at </Text>
+                            <Button transparent onPress = {()=>setShowHourPicker(true)} style={{height:'100%'}}>
+                                <Text style={styles.centeredBtnGreenText}>{selectedFluidHour}</Text>
+                            </Button>
+                            </Container>
+                            
+                            {showHourPicker && (
+                                <DateTimePicker
+                                testID="fluid_dateTimePicker"
+                                value={setDatePicker()}
+                                mode='time'
+                                is24Hour={false}
+                                display="default"
+                                onChange={(event:any)=>onHourChange(event.nativeEvent.timestamp)}
+                                />
+                            )}      
+                        </Root>                     
                     </Container>
                 </Content>
             </Container>
@@ -252,6 +260,7 @@ const styles = StyleSheet.create({
         color:'green',
         textDecorationLine:'underline',
         textDecorationColor:'green'
-    }
+    },
+    ...commonStyles
   });
   
