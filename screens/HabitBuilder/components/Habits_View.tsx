@@ -1,8 +1,8 @@
 import { Badge, Button, Container, Icon, Text } from 'native-base';
 import { Dimensions, StyleSheet } from 'react-native';
 import { IHabit, ScheduleTypes } from '../../../constants/interfaces';
+import React, { useState } from 'react';
 
-import React from 'react';
 import colours from '../../../constants/Colours';
 import { commonStyles } from '../../styles/commonStyles';
 import { convertNumberToWeekday } from '../../../utils/convertWeekday';
@@ -11,20 +11,24 @@ interface iHabitProps {
     habits: IHabit[]; 
     filterByDay?:boolean;
     filterByWeek?:boolean; 
+    onHabitDetails?: (habit:IHabit)=>void
 }
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 const Habits_View = (props:iHabitProps) => {
     let habits:IHabit[] = Object.assign([], props.habits);
-
+    
     if(props.filterByDay){
         habits = habits.filter(habit=>habit.habitScheduleType === ScheduleTypes.fixed);
-        console.log(`filtered habits by day`, habits);
-        
     } else if(props.filterByWeek){
         habits = habits.filter(habit=>habit.habitScheduleType === ScheduleTypes.fluid);
-        console.log(`filtered habits by week`, habits);
     }
+
+    const handleOpenHabitDetails =(habit:IHabit) =>{
+        console.log(`selectedHabit is: `, habit.habitId);        
+        props&& props.onHabitDetails && props.onHabitDetails(habit);
+    }
+    
     return (        
         <Container>
            {!habits.length ?(
@@ -39,7 +43,7 @@ const Habits_View = (props:iHabitProps) => {
                    <Container style={styles.container}>
                        <Container style={{display:'flex', flexDirection:'row', justifyContent:'space-between', borderRadius:10, margin:10}}>
                            <Text style={styles.centeredBtnGrayText}>{habit.title}</Text>
-                           <Icon type='FontAwesome5' name='chevron-right' style={{color:colours.ltGray}}/>
+                           <Icon onPress={()=>handleOpenHabitDetails(habit)} type='FontAwesome5' name='chevron-right' style={{color:colours.ltGray}}/>
                        </Container>
                        
                        <Container style={{borderRadius:10,margin:10}} >

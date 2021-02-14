@@ -1,9 +1,10 @@
 import { Button, Container, Content, Text } from 'native-base';
 import { Dimensions, StyleSheet } from 'react-native';
+import { IHabit, IUser } from '../../../constants/interfaces';
 import React, { useState } from 'react';
 
+import Habit_Details from './Habit_Details';
 import Habits_View from './Habits_View';
-import { IUser } from '../../../constants/interfaces';
 import colours from '../../../constants/Colours';
 import { commonStyles } from '../../styles/commonStyles';
 
@@ -11,16 +12,33 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 interface ICalendarProps {
     authenticatedUser: IUser;
-    onHabitEditRequired: ()=>void //when they require an edit on the habit
+    onHabitEditRequired: (habit:IHabit)=>void //when they require an edit on the habit
 }
 
 const Calendar = (props:ICalendarProps) => {
     const [isWeek, setIsWeek] = useState(false); 
+    const [selectedHabit, setSelectedHabit] = useState<IHabit|undefined>(undefined);
+
     const handleDayClick = ()=>{
         setIsWeek(false); 
     }
     const handleWeekClick = ()=>{
         setIsWeek(true); 
+    }
+    const handleShowDetails =(habit:IHabit)=>{
+        if(habit) setSelectedHabit(habit)
+    }
+    
+    const handleHabitEditCall =()=>{
+        const habit = Object.assign({},selectedHabit);
+        setSelectedHabit(undefined);
+        props.onHabitEditRequired(habit); 
+    }
+
+    if(selectedHabit){
+        return(
+            <Habit_Details habit={selectedHabit} onCancel={()=>setSelectedHabit(undefined)} onEditTriggered={handleHabitEditCall}/>
+        )
     }
 
     return (        
@@ -44,7 +62,7 @@ const Calendar = (props:ICalendarProps) => {
                             <Text style={{...styles.centeredBtnGrayText, lineHeight:48, textAlign:'right', width:windowWidth*0.5, color:isWeek?colours.dkGray:'transparent'}}>Week of Jan 9</Text>
                         </Container>
                         <Content>
-                            <Habits_View habits={props.authenticatedUser.habits} filterByDay={!isWeek} filterByWeek={isWeek}/>
+                            <Habits_View habits={props.authenticatedUser.habits} filterByDay={!isWeek} filterByWeek={isWeek} onHabitDetails={handleShowDetails}/>
                         </Content>
                         
                     </Container> 

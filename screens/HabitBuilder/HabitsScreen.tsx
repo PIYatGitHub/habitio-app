@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 
 import Calendar from './components/Calendar';
 import HabitEditor from './components/HabitEditor';
+import Habit_Details from './components/Habit_Details';
 import Habits_View from './components/Habits_View';
 import Settings from './components/Settings';
 import colours from '../../constants/Colours';
@@ -27,6 +28,7 @@ const HabitsScreen = (props: {reduxUserState: (arg0: IUserStateAction) => void, 
     const [willEditHabit, setWillEditHabit] = useState(false); 
     const [habits, setHabits] = useState<IHabit[]>(props.authenticatedUser.habits);
     const [seclectedHabit, setSelectedHabit] = useState(emptyHabit); 
+    const [showDetails, setShowDetails] = useState(false); 
 
     const handleTriggerHabitCreate = ()=>{
         setWillEditHabit(true); 
@@ -34,39 +36,92 @@ const HabitsScreen = (props: {reduxUserState: (arg0: IUserStateAction) => void, 
 
     const handleHabitChange = (habit:IHabit|null)=>{
         //so far we support only adding habits really. 
-        console.log(`In here with habit=`, habit);       
-        if(habit!==null && seclectedHabit.habitId === -1 && seclectedHabit.habitSchedule[0].day === -1) {
-            let newHabits:IHabit[] = Object.assign([], habits);
-            if(habit.habitId === -1){
-                if(!props.authenticatedUser.habits.length){
-                    habit.habitId = 1; 
-                    console.log(`habitId = 1`);
-                    
-                } else {
-                    const sorted = props.authenticatedUser.habits.sort((a,b)=> a.habitId - b.habitId);
-                    const maxId =sorted[sorted.length-1].habitId;
-                    habit.habitId = maxId + 1; 
-                    console.log(`habitId = `, habit.habitId);
-                    
+        try {
+            console.log(`In here with habit=`, habit);       
+            console.log(`In here with authUSerhabits=`, props.authenticatedUser.habits);       
+            if(habit!==null && seclectedHabit.habitId === -1 && seclectedHabit.habitSchedule[0].day === -1 && !seclectedHabit) {
+                let newHabits:IHabit[] = Object.assign([], habits);
+                if(habit.habitId === -1){
+                    if(!props.authenticatedUser.habits.length){
+                        habit.habitId = 1; 
+                        console.log(`habitId = 1`);
+                        
+                    } else {
+                        const sorted = props.authenticatedUser.habits.sort((a,b)=> a.habitId - b.habitId);
+                        const maxId =sorted[sorted.length-1].habitId;
+                        habit.habitId = maxId + 1; 
+                        console.log(`habitId = `, habit.habitId);
+                        
+                    }
                 }
+                newHabits.push(habit);
+                setHabits(newHabits); 
+                //set the habits
+                const userStatePayload:IUserStateAction = {loggedIn:true, type: "SET_HABITS", user:{...props.authenticatedUser, habits: newHabits}};
+    
+                props.reduxUserState(userStatePayload);
+            } else { // we have edited a habit and we must find it with the user's habits...
+                let idx=-1; 
+                let lookupHabit:IHabit|undefined = props.authenticatedUser.habits.find((h,i)=>{
+                    if(h.habitId === habit?.habitId){
+                        idx=i; 
+                        return true;
+                    }
+                });
+                if(!lookupHabit || !habit){
+                    setWillEditHabit(false);
+                    setShowDetails(false);
+                    setSelectedHabit(emptyHabit)
+                     throw new Error(`fatal error bad data on edit!`)
+                }
+                lookupHabit=habit;    //assign the new values!
+                const newHabits:IHabit[] = Object.assign([], props.authenticatedUser.habits);
+                
+                if(idx!==-1) 
+                    newHabits[idx] = lookupHabit; 
+                
+                const userStatePayload:IUserStateAction = {loggedIn:true, type: "SET_HABITS", user:{...props.authenticatedUser, habits: newHabits}};
+                props.reduxUserState(userStatePayload);
             }
-            newHabits.push(habit);
-            setHabits(newHabits); 
-            //set the habits
-            const userStatePayload:IUserStateAction = {loggedIn:true, type: "SET_HABITS", user:{...props.authenticatedUser, habits: newHabits}};
-
-            props.reduxUserState(userStatePayload);
-        } else { // we have edited a habit and we must find it with the user's habits...
-            console.log(`we should not be here at all!`, props.authenticatedUser.habits);
+            
+            setWillEditHabit(false);
+            setSelectedTab('calendar');
+        } catch (error) {
+            console.log(`FATAL ERROR`, error);            
         }
-        setWillEditHabit(false);
-        setSelectedTab('calendar'); 
-    }
-    const habitEditFromCalendar = ()=>{
-        console.log(`editing from the calendar...`);
         
     }
-    
+    const habitEditFromCalendar = (habit:IHabit)=>{
+        console.log(`editing from the calendar...`);
+        console.log(`>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>`);
+        setWillEditHabit(true);
+        setSelectedHabit(habit);
+    }
+
+    const handleShowDetails =(habit:IHabit)=>{
+        console.log(`habit is..............`, habit);
+        
+        if(habit) {
+            setSelectedHabit(habit);
+            setShowDetails(true); 
+        }
+    }
+
+    const handleHabitEditCall=()=>{
+        console.log(`handleHabitEditCall`);
+        
+        setWillEditHabit(true);
+        setShowDetails(false);
+    }
+    const handleEditCancel=()=>{
+        setSelectedHabit(emptyHabit);
+        setWillEditHabit(false); 
+        setShowDetails(false);
+    }
+
+    if(showDetails){
+        return  <Habit_Details habit={seclectedHabit} onCancel={handleEditCancel} onEditTriggered={handleHabitEditCall}/>
+    }
     return (
         !willEditHabit?(
             <Container>
@@ -87,7 +142,7 @@ const HabitsScreen = (props: {reduxUserState: (arg0: IUserStateAction) => void, 
                 ):null}
 
                 {selectedTab === 'habits'? (
-                <Habits_View habits={props.authenticatedUser.habits}/>
+                <Habits_View habits={props.authenticatedUser.habits} onHabitDetails={handleShowDetails}/>
                 ):null}
 
                 {selectedTab === 'calendar'? (
@@ -136,7 +191,7 @@ const HabitsScreen = (props: {reduxUserState: (arg0: IUserStateAction) => void, 
                 </Footer>
             </Container>
         ): (
-           <HabitEditor onHabitEdited={handleHabitChange} user={props.authenticatedUser}/>
+           <HabitEditor onHabitEdited={handleHabitChange} user={props.authenticatedUser} habitToEdit={seclectedHabit}/>
         )        
     )
 }

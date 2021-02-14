@@ -58,26 +58,30 @@ const HabitEditor = (props:IEditHabitProps) => {
          newHabit.habitSchedule = schedule; 
         setHabit(newHabit); 
         setCurrentStep(step); 
+        console.log(`>>>>>>>>>>>>>>>>>>>>>>>>>>>STEP IS`, step);
+        
         if(step !== StatesEnum.setScheduleType) {
+            console.log(`NEW HABBIT.................`, newHabit);
+            
             props.onHabitEdited(newHabit);
         }
     }
 
     if(currentStep === StatesEnum.setGoals ) {
         return(
-            <EditHabit_Goals onSetHabitGoals={handleHabitGoalsChange}/>
+            <EditHabit_Goals onSetHabitGoals={handleHabitGoalsChange} habitToEdit={habit}/>
         )
     }
 
     if(currentStep === StatesEnum.setScheduleType) {
         return(
-           <EditHabit_ScheduleType onSetScheduleType={handleHabitSchedultTypeChange} />
+           <EditHabit_ScheduleType onSetScheduleType={handleHabitSchedultTypeChange} habitToEdit={habit}/>
         )
     }
 
     if(currentStep === StatesEnum.showExamples) {
         return(
-            <CreateHabit_Examples onHasSchownHabitExamples = {handleHasShownHabitExamples}/>
+            <CreateHabit_Examples onHasSchownHabitExamples = {handleHasShownHabitExamples} />
         )
     }
 
