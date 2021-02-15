@@ -27,7 +27,7 @@ const HabitsScreen = (props: {reduxUserState: (arg0: IUserStateAction) => void, 
     const [selectedTab, setSelectedTab] = useState('habits'); 
     const [willEditHabit, setWillEditHabit] = useState(false); 
     const [habits, setHabits] = useState<IHabit[]>(props.authenticatedUser.habits);
-    const [seclectedHabit, setSelectedHabit] = useState(emptyHabit); 
+    const [seclectedHabit, setSelectedHabit] = useState<IHabit | undefined>(undefined); 
     const [showDetails, setShowDetails] = useState(false); 
 
     const handleTriggerHabitCreate = ()=>{
@@ -39,7 +39,7 @@ const HabitsScreen = (props: {reduxUserState: (arg0: IUserStateAction) => void, 
         try {
             console.log(`In here with habit=`, habit);       
             console.log(`In here with authUSerhabits=`, props.authenticatedUser.habits);       
-            if(habit!==null && seclectedHabit.habitId === -1 && seclectedHabit.habitSchedule[0].day === -1 && !seclectedHabit) {
+            if(habit!==null && !seclectedHabit) {
                 let newHabits:IHabit[] = Object.assign([], habits);
                 if(habit.habitId === -1){
                     if(!props.authenticatedUser.habits.length){
@@ -120,7 +120,7 @@ const HabitsScreen = (props: {reduxUserState: (arg0: IUserStateAction) => void, 
     }
 
     if(showDetails){
-        return  <Habit_Details habit={seclectedHabit} onCancel={handleEditCancel} onEditTriggered={handleHabitEditCall}/>
+        return  <Habit_Details habit={seclectedHabit || emptyHabit} onCancel={handleEditCancel} onEditTriggered={handleHabitEditCall}/>
     }
     return (
         !willEditHabit?(
