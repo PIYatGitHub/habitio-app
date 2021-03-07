@@ -1,10 +1,10 @@
+import { Root, Spinner } from 'native-base';
 import { persistor, store } from './constants/store';
 
 import HabitioNavigator from './navigation/HabitioNavigator';
 import { PersistGate } from 'redux-persist/integration/react';
 import { Provider } from 'react-redux';
 import React from 'react';
-import { Spinner } from 'native-base';
 import { StyleSheet } from 'react-native';
 import { useFonts } from 'expo-font';
 
@@ -19,11 +19,13 @@ const App = () => {
   }
 
   return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <HabitioNavigator/>
-      </PersistGate>
-    </Provider>
+    <Root>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <HabitioNavigator/>
+        </PersistGate>
+      </Provider>
+    </Root>    
   );
 }
 

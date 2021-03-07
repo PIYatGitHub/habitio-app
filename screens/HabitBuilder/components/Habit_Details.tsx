@@ -1,7 +1,7 @@
-import { Button, Container, Content, Form, Icon, Input, Item, Label, List, ListItem, Text } from 'native-base';
+import { Body, Button, Card, CardItem, Container, Content, Form, Icon, Input, Item, Label, List, ListItem, Text } from 'native-base';
 import { Dimensions, StyleSheet } from 'react-native';
 import { IHabit, ScheduleTypes, StatesEnum } from '../../../constants/interfaces';
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 
 import colours from '../../../constants/Colours';
 import { commonStyles } from '../../styles/commonStyles';
@@ -16,37 +16,45 @@ interface IEditHabitGoalsProps {
 }
 
 const Habit_Details = (props:IEditHabitGoalsProps) => {
-    console.log(`DATA...`, props.habit);
-    console.log(`>>>>>>>>>>>>>>>>>>>>>>>>>`);
-    
-    
     return(
     <Container style={styles.container}>
         <Container>
             <Content>
-                <Container style={{marginLeft:windowWidth*0.05,marginRight:windowWidth*0.05, height:windowHeight*0.3, maxHeight:windowHeight*0.3}}>
-                    <Text style={{...styles.centeredBtnGrayText, fontSize:18}}>{props.habit.title}</Text>
-                    <Text>Goals</Text>
-                    <List>                        
-                    {props.habit.goals.map(goal=> <ListItem style={{...styles.noBBW, height:windowHeight*0.06}}><Text>{goal}</Text></ListItem>)}
-                    </List>
-                    <Icon onPress={props.onEditTriggered} style={{ width:'100%', textAlign: 'right',  color:colours.green}} type='FontAwesome5' name='pen'/> 
-                </Container>
-
-                <Container style={{marginLeft:windowWidth*0.05,marginRight:windowWidth*0.05, height:windowHeight*0.3, maxHeight:windowHeight*0.3}}>
-                    <Text>Schedule ({props.habit.habitScheduleType})</Text>
-                    <List>                        
-                        {props.habit.habitSchedule.map(schedule=> <ListItem style={{...styles.noBBW, height:windowHeight*0.06}}>
-                            {props.habit.habitScheduleType === ScheduleTypes.fixed?
-                             <Text>{convertNumberToWeekday(schedule.day)} between {schedule.fromHour.toUpperCase()} and {schedule.toHour.toUpperCase()}</Text>
-                            :<Text>{convertNumberToWeekday(schedule.day)} at {schedule.fromHour.toUpperCase()}</Text>
-                            }
+                <Card style={{marginLeft:windowWidth*0.05,marginRight:windowWidth*0.05, borderRadius:10}}>
+                    <CardItem style={{ borderRadius:10}}>
+                        <Body>
+                            <Text style={{...styles.centeredBtnGrayText, fontSize:18}}>{props.habit.title}</Text>
+                            <Text>Goals: </Text>
+                            <List style={{maxWidth:'100%'}}>                        
+                            {props.habit.goals.map(goal=> <ListItem style={{...styles.noBBW, height:windowHeight*0.06}}>
+                                <Icon type='FontAwesome5' name='bullseye' solid={false} style={{marginRight: '2.5%', fontSize:13}}/>
+                                <Text>{goal}</Text>
                             </ListItem>)}
-                    </List>  
-                    <Icon onPress={props.onEditTriggered} style={{width:'100%', textAlign: 'right', color:colours.green}} type='FontAwesome5' name='pen'/>                  
-                </Container>
-
-                <Button style={styles.bottomBtn} bordered block onPress={()=> props.onCancel()}><Text style={{...styles.centeredBtnGreenText}} uppercase={false}>Cancel</Text></Button>
+                            </List>
+                            <Icon onPress={props.onEditTriggered} style={{ width:'100%', textAlign: 'right',  color:colours.green, fontSize:18}} type='FontAwesome5' name='pen'/> 
+                        </Body>
+                    </CardItem>
+                </Card>
+                {/* <Container style={{marginLeft:windowWidth*0.05,marginRight:windowWidth*0.05, height:windowHeight*0.3, maxHeight:windowHeight*0.3}}>
+                    <
+                </Container> */}
+                <Card style={{marginLeft:windowWidth*0.05,marginRight:windowWidth*0.05, borderRadius:10, marginTop:windowHeight*0.05}}>
+                    <CardItem style={{ borderRadius:10}}>
+                        <Body>
+                            <Text>Schedule ({props.habit.habitScheduleType})</Text>
+                            <List style={{maxWidth:'100%'}}>                        
+                                {props.habit.habitSchedule.map(schedule=> <ListItem style={{...styles.noBBW, height:windowHeight*0.06}}>                            
+                                    <Icon type='FontAwesome5' name='clock' style = {{fontSize:13, marginRight: '2.5%'}} solid={false}/>
+                                    {props.habit.habitScheduleType === ScheduleTypes.fixed?
+                                    <Text>{convertNumberToWeekday(schedule.day)} between {schedule.fromHour.toUpperCase()} and {schedule.toHour.toUpperCase()}</Text>
+                                    :<Text>{convertNumberToWeekday(schedule.day)} at {schedule.fromHour.toUpperCase()}</Text>
+                                    }
+                                </ListItem>)}
+                            </List>  
+                            <Icon onPress={props.onEditTriggered} style={{width:'100%', textAlign: 'right', color:colours.green, fontSize:18}} type='FontAwesome5' name='pen'/>                  
+                        </Body>
+                    </CardItem>
+                </Card>
             </Content>            
         </Container>
     

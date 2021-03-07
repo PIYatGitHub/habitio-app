@@ -3,7 +3,6 @@ import { Dimensions, StyleSheet } from 'react-native';
 import { IHabit, IUser } from '../../../constants/interfaces';
 import React, { useState } from 'react';
 
-import Habit_Details from './Habit_Details';
 import Habits_View from './Habits_View';
 import colours from '../../../constants/Colours';
 import { commonStyles } from '../../styles/commonStyles';
@@ -13,6 +12,7 @@ const windowHeight = Dimensions.get('window').height;
 interface ICalendarProps {
     authenticatedUser: IUser;
     onHabitEditRequired: (habit:IHabit)=>void //when they require an edit on the habit
+    onHabitDetails?: (habit:IHabit)=>void
 }
 
 const Calendar = (props:ICalendarProps) => {
@@ -29,16 +29,8 @@ const Calendar = (props:ICalendarProps) => {
         if(habit) setSelectedHabit(habit)
     }
     
-    const handleHabitEditCall =()=>{
-        const habit = Object.assign({},selectedHabit);
-        setSelectedHabit(undefined);
-        props.onHabitEditRequired(habit); 
-    }
-
     if(selectedHabit){
-        return(
-            <Habit_Details habit={selectedHabit} onCancel={()=>setSelectedHabit(undefined)} onEditTriggered={handleHabitEditCall}/>
-        )
+        props.onHabitDetails && props.onHabitDetails(selectedHabit); 
     }
 
     return (        

@@ -1,8 +1,9 @@
-import { Button, Container, Content, Text } from 'native-base';
+import { Button, Container, Content, Text, Toast } from 'native-base';
 import {Dimensions, StyleSheet} from 'react-native';
 import { IUser, IUserStateAction } from '../../constants/interfaces';
 import React, { useState } from 'react';
 
+import Colours from '../../constants/Colours';
 import { commonStyles } from '../styles/commonStyles';
 import { connect } from 'react-redux';
 
@@ -74,8 +75,28 @@ const TagsScreen = (props: { reduxUserState: (arg0: IUserStateAction) => void, a
                 </Container>
                 
 
-                 <Button key={3} transparent>
-                    <Text uppercase={false} style={{...styles.centeredBtnGreenText, marginLeft:0,paddingLeft:5, marginTop:20}}>Request add custom</Text>
+                 <Button key={3} transparent 
+                    onPress={()=> Toast.show({
+                       text: 'Coming soon!',
+                        buttonText: 'OK',
+                        duration: 3300,
+                        style:{
+                            width:'90%',
+                            marginLeft:'5%',
+                            marginBottom:'5%',
+                            borderRadius:10,
+                            backgroundColor:Colours.green,
+                        },
+                        textStyle:{color: 'white'},
+                        onClose:(reason)=>{
+                            console.log(`reason is...`, reason);
+                        }
+                  })}
+                  >
+                    <Text uppercase={false} 
+                    style={{...styles.centeredBtnGreenText, marginLeft:0,paddingLeft:5, marginTop:20}}>
+                        Request add custom
+                    </Text>
                 </Button>  
             </Content>
         </Container>

@@ -1,4 +1,4 @@
-import { Badge, Button, Container, Icon, Text } from 'native-base';
+import { Badge, Body, Button, Card, CardItem, Container, Icon, Text } from 'native-base';
 import { Dimensions, StyleSheet } from 'react-native';
 import { IHabit, ScheduleTypes } from '../../../constants/interfaces';
 import React, { useState } from 'react';
@@ -40,28 +40,36 @@ const Habits_View = (props:iHabitProps) => {
            
            {habits.map(habit=>{
                return (
-                   <Container style={styles.container}>
-                       <Container style={{display:'flex', flexDirection:'row', justifyContent:'space-between', borderRadius:10, margin:10}}>
-                           <Text style={styles.centeredBtnGrayText}>{habit.title}</Text>
-                           <Icon onPress={()=>handleOpenHabitDetails(habit)} type='FontAwesome5' name='chevron-right' style={{color:colours.ltGray}}/>
-                       </Container>
-                       
-                       <Container style={{borderRadius:10,margin:10}} >
-                           {habit.habitSchedule.map(habitSchedule=>{
-                            return(   
-                                <>                            
-                                <Text>{props.filterByDay?
-                                ``:
-                                `Every `}
-                                {convertNumberToWeekday(habitSchedule.day)}{props.filterByDay?
-                                ` between ${habitSchedule.fromHour.toUpperCase()} and ${habitSchedule.toHour.toUpperCase()}.`:
-                                ` at ${habitSchedule.fromHour.toUpperCase()}.`}
-                                </Text>
-                                </>
-                                )
-                            })}
-                       </Container> 
-                   </Container>
+                    <Card style={{marginLeft:windowWidth*0.05, marginRight:windowWidth*0.05, borderRadius:10}}>
+                        <CardItem style={{borderRadius:10}}>
+                            <Body style={{display:'flex', flexDirection:'row', justifyContent:'space-between'}}>
+                                <Text style={styles.centeredBtnGrayText} onPress= {()=>handleOpenHabitDetails(habit)}>{habit.title}</Text>
+                                <Icon type='FontAwesome5' name='chevron-right' onPress= {()=>handleOpenHabitDetails(habit)}
+                                style={{color:colours.ltGray, fontSize: 20}}/>
+                                
+                            </Body>
+                        </CardItem>
+                        <CardItem footer style={{borderRadius:10}}>
+                            <Body style={{display:'flex', flexDirection:'row', flexWrap:'wrap', alignContent:'center'}}>
+                                {habit.habitSchedule.map(habitSchedule=>{
+                                    return(   
+                                        <>
+                                        <Icon type='FontAwesome5' name='clock' solid={false} onPress= {()=>handleOpenHabitDetails(habit)}
+                                        style={{color:colours.ltGray, fontSize: 13, lineHeight:20, marginRight:'2.5%'}}/>                                                              
+                                        <Text onPress= {()=>handleOpenHabitDetails(habit)} style={{lineHeight:20, maxWidth:'100%'}}>{props.filterByDay?
+                                        ``:
+                                        `Every `}
+                                        {convertNumberToWeekday(habitSchedule.day)}{props.filterByDay?
+                                        ` between ${habitSchedule.fromHour.toUpperCase()} and ${habitSchedule.toHour.toUpperCase()}.`:
+                                        ` at ${habitSchedule.fromHour.toUpperCase()}.`}
+                                        </Text>
+                                        </>
+                                    )
+                                })}
+                            </Body>
+                            
+                        </CardItem>
+                    </Card>
                )
            })}
         </Container>

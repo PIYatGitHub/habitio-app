@@ -1,8 +1,9 @@
-import { Button, Container, Content, Icon, Text } from 'native-base';
+import { Button, Container, Content, Icon, Text, Toast } from 'native-base';
 import {Dimensions, StyleSheet} from 'react-native';
 import { ITag, IUser, IUserStateAction } from '../../constants/interfaces';
 import React, { useState } from 'react';
 
+import Colours from '../../constants/Colours';
 import colours from '../../constants/Colours';
 import { commonStyles } from '../styles/commonStyles';
 import { connect } from 'react-redux';
@@ -84,7 +85,23 @@ const TagsScreen = (props: {reduxUserState: (arg0: IUserStateAction) => void, au
                             )
                         })}               
                     </Container>
-                    <Button transparent>
+                    <Button transparent 
+                      onPress={()=> Toast.show({
+                       text: 'Coming soon!',
+                        buttonText: 'OK',
+                        duration: 3300,
+                        style:{
+                            width:'90%',
+                            marginLeft:'5%',
+                            marginBottom:'5%',
+                            borderRadius:10,
+                            backgroundColor:Colours.green,
+                        },
+                        textStyle:{color: 'white'},
+                        onClose:(reason)=>{
+                            console.log(`reason is...`, reason);
+                        }
+                        })}>
                         <Icon name='add-circle' style={{color: colours.green, marginRight:0}}/>
                         <Text uppercase={false} style={styles.centeredBtnGreenText}>Add Your Own</Text>
                     </Button>

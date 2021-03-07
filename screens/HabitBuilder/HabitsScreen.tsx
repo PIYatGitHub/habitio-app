@@ -91,6 +91,7 @@ const HabitsScreen = (props: {reduxUserState: (arg0: IUserStateAction) => void, 
         }
         
     }
+
     const habitEditFromCalendar = (habit:IHabit)=>{
         console.log(`editing from the calendar...`);
         console.log(`>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>`);
@@ -99,9 +100,10 @@ const HabitsScreen = (props: {reduxUserState: (arg0: IUserStateAction) => void, 
     }
 
     const handleShowDetails =(habit:IHabit)=>{
-        console.log(`habit is..............`, habit);
+        console.log(`is there a habit?`, habit.title);
         
         if(habit) {
+            console.log(`>>>>>>>>>>>>>>>> I am about to get that value to true!`);
             setSelectedHabit(habit);
             setShowDetails(true); 
         }
@@ -119,34 +121,65 @@ const HabitsScreen = (props: {reduxUserState: (arg0: IUserStateAction) => void, 
         setShowDetails(false);
     }
 
-    if(showDetails){
-        return  <Habit_Details habit={seclectedHabit || emptyHabit} onCancel={handleEditCancel} onEditTriggered={handleHabitEditCall}/>
+    const handleCloseDetails = ()=>{
+        setShowDetails(false);
+        setSelectedTab('habits');
     }
+
+    const setActionBar = ()=>{
+        console.log(`GOING FOR THE HEADER SETUP....`, selectedTab, showDetails);
+        
+        if (selectedTab!=='settings' && !showDetails){
+            return (
+            <Container style={styles.actionBandMultipleAction}>
+            <Text style={styles.placeholder} uppercase={false}>+</Text>
+            <Text style={{...styles.centeredBtnGrayText,lineHeight:windowHeight*0.08}}>My habits</Text>
+            <Button style={styles.rightActionBtn} transparent onPress = {handleTriggerHabitCreate}>
+                <Text uppercase={false} style={{
+                    fontSize:30,
+                    textAlign:'right',
+                    width:'100%',
+                    color:colours.dkGray
+                }}>+</Text>
+            </Button> 
+            </Container>)
+        }
+        if (showDetails){
+            return (
+                <Container style={styles.actionBandMultipleAction}>
+                <Button style={{width:'33.33%', height:'100%'}} transparent> 
+                    <Icon type='FontAwesome5' name='chevron-left' onPress={handleCloseDetails} style={{color:colours.dkGray}}/>
+                </Button>
+                
+                <Text style={{...styles.centeredBtnGrayText,lineHeight:windowHeight*0.08}}>Habits</Text>
+                <Text style={styles.placeholder} uppercase={false}>+</Text>
+                </Container>)
+        }
+        return null; 
+    }
+
+    if(showDetails){
+        return  (
+            <Container>
+                {setActionBar()}
+                <Habit_Details habit={seclectedHabit || emptyHabit} onCancel={handleEditCancel} onEditTriggered={handleHabitEditCall}/>
+            </Container>
+        
+        )
+    }
+
     return (
         !willEditHabit?(
             <Container>
                 {/* header bar here! valide on 2 of 3 tabs (settings excluded) */}
-                {selectedTab!=='settings'?(
-                <Container style={styles.actionBandMultipleAction}>
-                <Text style={styles.placeholder}>Placeholder</Text>
-                <Text style={{...styles.centeredBtnGrayText,lineHeight:windowHeight*0.08}}>My habits</Text>
-                <Button style={styles.rightActionBtn} transparent onPress = {handleTriggerHabitCreate}>
-                    <Text uppercase={false} style={{
-                        fontSize:30,
-                        textAlign:'right',
-                        width:'100%',
-                        color:colours.dkGray
-                    }}>+</Text>
-                </Button> 
-                </Container>
-                ):null}
+                {setActionBar()}
 
                 {selectedTab === 'habits'? (
                 <Habits_View habits={props.authenticatedUser.habits} onHabitDetails={handleShowDetails}/>
                 ):null}
 
                 {selectedTab === 'calendar'? (
-                   <Calendar onHabitEditRequired={habitEditFromCalendar} authenticatedUser = {props.authenticatedUser}/>
+                   <Calendar onHabitEditRequired={habitEditFromCalendar} authenticatedUser = {props.authenticatedUser} onHabitDetails={handleShowDetails}/>
                 ):null}
 
                 {selectedTab === 'settings'? (
