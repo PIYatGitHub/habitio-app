@@ -9,36 +9,37 @@ import { createStackNavigator } from "react-navigation-stack";
 
 const habitioNavigator = createStackNavigator(
   {
-    LandingScreen: {
-      screen: LandingScreen,
-      navigationOptions: {
-        headerShown: false,
-      },
-    },
-    LoginScreen: {
-      screen: LoginScreen,
-      navigationOptions: {
-        title: "",
-      },
-    },
-    RegisterScreen: {
-      screen: RegisterScreen,
-      navigationOptions: {
-        title: "",
-      },
-    },
-    TagsScreen: {
-      screen: TagsScreen,
-      navigationOptions: {
-        title: "",
-      },
-    },
-    MotivationScreen: {
-      screen: MotivationScreen,
-      navigationOptions: {
-        title: "",
-      },
-    },
+    // LandingScreen is disabled until we have back-end connectivity. Not Needed for the client atm 
+    // LandingScreen: {
+    //   screen: LandingScreen,
+    //   navigationOptions: {
+    //     headerShown: false,
+    //   },
+    // },
+    // LoginScreen: {
+    //   screen: LoginScreen,
+    //   navigationOptions: {
+    //     title: "",
+    //   },
+    // },
+    // RegisterScreen: {
+    //   screen: RegisterScreen,
+    //   navigationOptions: {
+    //     title: "",
+    //   },
+    // },
+    // TagsScreen: {
+    //   screen: TagsScreen,
+    //   navigationOptions: {
+    //     title: "",
+    //   },
+    // },
+    // MotivationScreen: {
+    //   screen: MotivationScreen,
+    //   navigationOptions: {
+    //     title: "",
+    //   },
+    // },
     HabitsScreen: {
       screen: HabitsScreen,
       navigationOptions: {
