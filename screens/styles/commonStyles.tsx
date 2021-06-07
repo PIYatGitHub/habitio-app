@@ -40,9 +40,11 @@ export const commonStyles= StyleSheet.create({
         borderBottomColor: colours.ltGray,
         borderBottomWidth: 1,
         flexGrow:1, 
-        height: windowHeight *0.08,
-        maxHeight: windowHeight *0.08,
-        marginBottom: windowHeight*0.03
+        height: windowHeight *0.07,
+        maxHeight: windowHeight *0.07,
+        marginBottom: windowHeight*0.03,
+        //For IPhone it breaks with small top marign
+        marginTop: windowHeight*0.05,
     },
     actionBandSingleAction: {
         display:'flex',
@@ -57,6 +59,10 @@ export const commonStyles= StyleSheet.create({
     },
     centeredBtnGrayText: {
         color: colours.dkGray,
+        fontSize: windowHeight*0.03
+    },
+    centeredGreenText: {
+        color: colours.green,
         fontSize: windowHeight*0.03
     },
     centeredBtnGreenText: {
