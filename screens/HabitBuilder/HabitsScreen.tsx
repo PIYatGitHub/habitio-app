@@ -7,6 +7,7 @@ import Calendar from './components/Calendar';
 import HabitEditor from './components/HabitEditor';
 import Habit_Details from './components/Habit_Details';
 import Habits_View from './components/Habits_View';
+import Habits_Home_View from './components/Habits_Home_View';
 import Settings from './components/Settings';
 import colours from '../../constants/Colours';
 import { commonStyles } from '../styles/commonStyles';
@@ -38,7 +39,13 @@ const HabitsScreen = (props: {reduxUserState: (arg0: IUserStateAction) => void, 
         //so far we support only adding habits really. 
         try {
             console.log(`In here with habit=`, habit);       
-            console.log(`In here with authUSerhabits=`, props.authenticatedUser.habits);       
+            console.log(`In here with authenticatedUser=`, props.authenticatedUser);       
+            console.log(`In here with authUserHabits=`, props.authenticatedUser.habits);
+            
+            if(props.authenticatedUser.habits === undefined) {
+                props.authenticatedUser.habits = [];
+            }
+            
             if(habit!==null && !seclectedHabit) {
                 let newHabits:IHabit[] = Object.assign([], habits);
                 if(habit.habitId === -1){
@@ -175,7 +182,7 @@ const HabitsScreen = (props: {reduxUserState: (arg0: IUserStateAction) => void, 
                 {setActionBar()}
 
                 {selectedTab === 'habits'? (
-                <Habits_View habits={props.authenticatedUser.habits} onHabitDetails={handleShowDetails}/>
+                <Habits_Home_View habits={props.authenticatedUser.habits} onHabitDetails={handleShowDetails}/>
                 ):null}
 
                 {selectedTab === 'calendar'? (
