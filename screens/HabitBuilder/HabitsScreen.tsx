@@ -8,6 +8,7 @@ import HabitEditor from './components/HabitEditor';
 import HabitDetails from './components/HabitDetails';
 import HabitsView from './components/HabitsView';
 import HabitsHomeView from './components/HabitsHomeView';
+import TopBar from './components/TopBar';
 import Settings from './components/Settings';
 import colours from '../../constants/Colours';
 import { habitsScreenStyles } from '../styles/habitsScreenStyles';
@@ -137,19 +138,7 @@ const HabitsScreen = (props: {reduxUserState: (arg0: IUserStateAction) => void, 
         console.log(`GOING FOR THE HEADER SETUP....`, selectedTab, showDetails);
         
         if (selectedTab!=='settings' && !showDetails){
-            return (
-            <Container style={habitsScreenStyles.actionBandMultipleAction}>
-            <Text style={habitsScreenStyles.placeholder} uppercase={false}>+</Text>
-            <Text style={{...habitsScreenStyles.centeredBtnGrayText,lineHeight:windowHeight*0.08}}>My habits</Text>
-            <Button style={habitsScreenStyles.rightActionBtn} transparent onPress = {handleTriggerHabitCreate}>
-                <Text uppercase={false} style={{
-                    fontSize:30,
-                    textAlign:'right',
-                    width:'100%',
-                    color:colours.dkGray
-                }}>+</Text>
-            </Button> 
-            </Container>)
+            return (<TopBar></TopBar>)
         }
         if (showDetails){
             return (
