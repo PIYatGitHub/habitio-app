@@ -32,6 +32,7 @@ const NextStepView = (props:INextStepViewProps) => {
         let exampleHabit:IHabit = {
             title: "Work on HabitIO",
             goals: ["Hard working"],
+            rewards: ["Play some guitar"],
             habitId: 0,
             habitSchedule: [{day: 1, fromHour:"10:10", toHour:"10:13"}],
             habitScheduleType: ScheduleTypes.fixed
@@ -82,6 +83,24 @@ const NextStepView = (props:INextStepViewProps) => {
                             })}
                         </Body>
                         
+                    </CardItem>
+                    <CardItem style={{borderRadius:10}}>
+                        <Body style={{display:'flex', flexDirection:'row', justifyContent:'space-between'}}>
+                            <Text style={styles.centeredBtnGrayTextSmall} onPress= {()=>handleOpenHabitDetails(firstHabit)}>And when i'm done I will {firstHabit.rewards[0]}</Text>
+                        </Body>
+                    </CardItem>
+                    
+                    <CardItem style={{borderRadius:10}}>
+                        <Body style={{display:'flex', flexDirection:'row', justifyContent:'space-between'}}>
+                            <Button>
+                                <Text>Done</Text>
+                                <Icon type='FontAwesome5' name='check'/>
+                            </Button>
+                            <Button>
+                                <Icon type='FontAwesome5' name='forward'/>
+                                <Text>Skip</Text>
+                            </Button>
+                        </Body>
                     </CardItem>
                 </Card>
     );

@@ -25,6 +25,7 @@ const HabitsHomeView = (props:iHabitProps) => {
         let exampleHabit:IHabit = {
             title: "Work on HabitIO",
             goals: ["Hard working"],
+            rewards: ["Play some guitar"],
             habitId: 0,
             habitSchedule: [{day: 1, fromHour:"10:10", toHour:"10:13"}],
             habitScheduleType: ScheduleTypes.fixed

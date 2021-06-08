@@ -29,6 +29,7 @@ export interface IHabitShedule{
 export interface IHabit {
     title: string;
     goals: string[];
+    rewards: string[];
     habitId: number;
     habitScheduleType: ScheduleTypes;
     habitSchedule:IHabitShedule[]; 
