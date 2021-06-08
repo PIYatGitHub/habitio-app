@@ -3,7 +3,7 @@ import { Dimensions, StyleSheet } from 'react-native';
 import React, { useState } from 'react';
 
 import { IUser } from '../../../constants/interfaces';
-import Settings_DateFormat from './Settings_DateFormat';
+import SettingsDateFormat from './SettingsDateFormat';
 import Settings_Prompts from './Settings_Prompts';
 import colours from '../../../constants/Colours';
 import { commonStyles } from '../../styles/commonStyles';
@@ -31,7 +31,7 @@ const Settings = (props: ISettingsProps) => {
     
 
     if(willCustomizeDate)
-        return <Settings_DateFormat  onEditDone={handleDateFormatEdited} authenticatedUser ={props.authenticatedUser}/>
+        return <SettingsDateFormat  onEditDone={handleDateFormatEdited} authenticatedUser ={props.authenticatedUser}/>
         
     return (          
         <Container>

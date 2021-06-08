@@ -15,7 +15,7 @@ interface IEditHabitGoalsProps {
     onEditTriggered: ()=>void
 }
 
-const Habit_Details = (props:IEditHabitGoalsProps) => {
+const HabitDetails = (props:IEditHabitGoalsProps) => {
     return(
     <Container style={styles.container}>
         <Container>
@@ -61,7 +61,7 @@ const Habit_Details = (props:IEditHabitGoalsProps) => {
     </Container>
     )
 }
-export default Habit_Details;
+export default HabitDetails;
 
 const styles = StyleSheet.create({
     container: {

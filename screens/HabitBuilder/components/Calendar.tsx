@@ -3,7 +3,7 @@ import { Dimensions, StyleSheet } from 'react-native';
 import { IHabit, IUser } from '../../../constants/interfaces';
 import React, { useState } from 'react';
 
-import Habits_View from './Habits_View';
+import HabitsView from './HabitsView';
 import colours from '../../../constants/Colours';
 import { commonStyles } from '../../styles/commonStyles';
 
@@ -37,7 +37,7 @@ const Calendar = (props:ICalendarProps) => {
         <Container>
                 <Content>
                     {!props.authenticatedUser.habits.length? (
-                        <Habits_View habits={props.authenticatedUser.habits}/>   
+                        <HabitsView habits={props.authenticatedUser.habits}/>   
                     ):(
                     <Container>
                         <Container style={{display:'flex', flexDirection:'row', justifyContent:'space-evenly', flexGrow:1,height:48,maxHeight:48}}>
@@ -54,7 +54,7 @@ const Calendar = (props:ICalendarProps) => {
                             <Text style={{...styles.centeredBtnGrayText, lineHeight:48, textAlign:'right', width:windowWidth*0.5, color:isWeek?colours.dkGray:'transparent'}}>Week of Jan 9</Text>
                         </Container>
                         <Content>
-                            <Habits_View habits={props.authenticatedUser.habits} filterByDay={!isWeek} filterByWeek={isWeek} onHabitDetails={handleShowDetails}/>
+                            <HabitsView habits={props.authenticatedUser.habits} filterByDay={!isWeek} filterByWeek={isWeek} onHabitDetails={handleShowDetails}/>
                         </Content>
                         
                     </Container> 

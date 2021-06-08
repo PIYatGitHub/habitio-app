@@ -13,7 +13,7 @@ interface IEditHabitGoalsProps {
     habitToEdit?: IHabit; 
 }
 
-const EditHabit_Goals = (props:IEditHabitGoalsProps) => {
+const EditHabitGoals = (props:IEditHabitGoalsProps) => {
     const [title, setTitle] = useState(props.habitToEdit? props.habitToEdit.title: ''); 
     const [goals, setGoals] = useState<string[]>(props.habitToEdit? props.habitToEdit.goals: ['','','']); 
 
@@ -72,7 +72,7 @@ const EditHabit_Goals = (props:IEditHabitGoalsProps) => {
     </Container>
     )
 }
-export default EditHabit_Goals;
+export default EditHabitGoals;
 
 const styles = StyleSheet.create({
     container: {

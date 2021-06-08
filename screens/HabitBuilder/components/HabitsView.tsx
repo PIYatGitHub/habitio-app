@@ -15,7 +15,7 @@ interface iHabitProps {
 }
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-const Habits_View = (props:iHabitProps) => {
+const HabitsView = (props:iHabitProps) => {
     let habits:IHabit[] = Object.assign([], props.habits);
     
     if(props.filterByDay){
@@ -75,7 +75,7 @@ const Habits_View = (props:iHabitProps) => {
         </Container>
     )
 }
-export default Habits_View;
+export default HabitsView;
 
 const styles = StyleSheet.create({
     blankHabitsContainer:{
