@@ -10,7 +10,7 @@ import Habits_View from './components/Habits_View';
 import Habits_Home_View from './components/Habits_Home_View';
 import Settings from './components/Settings';
 import colours from '../../constants/Colours';
-import { commonStyles } from '../styles/commonStyles';
+import { habitsScreenStyles } from '../styles/habitsScreenStyles';
 import { connect } from 'react-redux';
 
 const windowWidth = Dimensions.get('window').width;
@@ -138,10 +138,10 @@ const HabitsScreen = (props: {reduxUserState: (arg0: IUserStateAction) => void, 
         
         if (selectedTab!=='settings' && !showDetails){
             return (
-            <Container style={styles.actionBandMultipleAction}>
-            <Text style={styles.placeholder} uppercase={false}>+</Text>
-            <Text style={{...styles.centeredBtnGrayText,lineHeight:windowHeight*0.08}}>My habits</Text>
-            <Button style={styles.rightActionBtn} transparent onPress = {handleTriggerHabitCreate}>
+            <Container style={habitsScreenStyles.actionBandMultipleAction}>
+            <Text style={habitsScreenStyles.placeholder} uppercase={false}>+</Text>
+            <Text style={{...habitsScreenStyles.centeredBtnGrayText,lineHeight:windowHeight*0.08}}>My habits</Text>
+            <Button style={habitsScreenStyles.rightActionBtn} transparent onPress = {handleTriggerHabitCreate}>
                 <Text uppercase={false} style={{
                     fontSize:30,
                     textAlign:'right',
@@ -153,13 +153,13 @@ const HabitsScreen = (props: {reduxUserState: (arg0: IUserStateAction) => void, 
         }
         if (showDetails){
             return (
-                <Container style={styles.actionBandMultipleAction}>
+                <Container style={habitsScreenStyles.actionBandMultipleAction}>
                 <Button style={{width:'33.33%', height:'100%'}} transparent> 
                     <Icon type='FontAwesome5' name='chevron-left' onPress={handleCloseDetails} style={{color:colours.dkGray}}/>
                 </Button>
                 
-                <Text style={{...styles.centeredBtnGrayText,lineHeight:windowHeight*0.08}}>Habits</Text>
-                <Text style={styles.placeholder} uppercase={false}>+</Text>
+                <Text style={{...habitsScreenStyles.centeredBtnGrayText,lineHeight:windowHeight*0.08}}>Habits</Text>
+                <Text style={habitsScreenStyles.placeholder} uppercase={false}>+</Text>
                 </Container>)
         }
         return null; 
@@ -235,37 +235,6 @@ const HabitsScreen = (props: {reduxUserState: (arg0: IUserStateAction) => void, 
         )        
     )
 }
-
-const styles = StyleSheet.create({
-    placeholder:{
-        color:'transparent',
-        width:'33.33%'
-    },
-    centeredActionBarText:{
-        width:'33.33%',
-        color:colours.dkGray,
-        textAlign:'center',
-        lineHeight:windowHeight*0.08
-    },
-    rightActionBtn:{
-        width:'33.34%',
-        height: windowHeight*0.08
-    },
-    rightActionBtnText:{
-        fontSize:30,
-        textAlign:'right',
-        width:'100%',
-        color:colours.dkGray
-    },
-    buttonRowContainer: {
-        display:'flex',
-        flexDirection:'row',
-        height: 48,
-        marginTop:20, 
-        marginBottom:0,
-    },
-   ...commonStyles
-  });
 
 const mapStateToProps = (state: { authReducer: { user:IUser }; }) => {
     return {
