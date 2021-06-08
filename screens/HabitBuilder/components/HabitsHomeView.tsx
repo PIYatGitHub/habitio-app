@@ -5,9 +5,7 @@ import React, { useState } from 'react';
 
 import colours from '../../../constants/Colours';
 import { habitsHomeViewStyles } from '../../styles/habitsHomeViewStyles';
-import { convertNumberToWeekday } from '../../../utils/convertWeekday';
-import autoMergeLevel1 from 'redux-persist/es/stateReconciler/autoMergeLevel1';
-import { marginTop } from '../../../utils/generic';
+import NextStepView from './NextStepView';
 
 interface iHabitProps {
     habits: IHabit[]; 
@@ -19,6 +17,21 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 const HabitsHomeView = (props:iHabitProps) => {
     let habits:IHabit[] = Object.assign([], props.habits);
+    
+    // Remove after debug
+    if (habits.length === 0) {
+        console.log(`No Habits!`);
+
+        let exampleHabit:IHabit = {
+            title: "Work on HabitIO",
+            goals: ["Hard working"],
+            habitId: 0,
+            habitSchedule: [{day: 1, fromHour:"10:10", toHour:"10:13"}],
+            habitScheduleType: ScheduleTypes.fixed
+        } 
+
+        habits.push(exampleHabit)
+    }
     let firstHabit:IHabit = habits[0];
 
     console.log(firstHabit)
@@ -44,43 +57,8 @@ const HabitsHomeView = (props:iHabitProps) => {
                 </Container>
            ) :null}
            
-           {habits.length ?(
-                [
-                <Card key='0' style={{marginLeft:windowWidth*0.05, marginRight:windowWidth*0.05, borderRadius:10}}>
-                    <CardItem style={{borderRadius:10}}>
-                        <Body style={{display:'flex', flexDirection:'row', justifyContent:'space-between'}}>
-                            <Text style={styles.centeredGreenText} onPress= {()=>handleOpenHabitDetails(firstHabit)}>Next Step</Text>
-                            <Icon type='FontAwesome5' name='chevron-right' onPress= {()=>handleOpenHabitDetails(firstHabit)}
-                            style={{color:colours.ltGray, fontSize: 20}}/>
-                            
-                        </Body>
-                    </CardItem>
-                    <CardItem style={{borderRadius:10}}>
-                        <Body style={{display:'flex', flexDirection:'row', justifyContent:'space-between'}}>
-                            <Text style={styles.centeredBtnGrayText} onPress= {()=>handleOpenHabitDetails(firstHabit)}>{firstHabit.title}</Text>
-                        </Body>
-                    </CardItem>
-                    <CardItem footer style={{borderRadius:10}}>
-                        <Body style={{display:'flex', flexDirection:'row', flexWrap:'wrap', alignContent:'center'}}>
-                            {firstHabit.habitSchedule.map(habitSchedule=>{
-                                return(   
-                                    <>
-                                    <Icon type='FontAwesome5' name='clock' solid={false} onPress= {()=>handleOpenHabitDetails(firstHabit)}
-                                    style={{color:colours.ltGray, fontSize: 13, lineHeight:20, marginRight:'2.5%'}}/>                                                              
-                                    <Text onPress= {()=>handleOpenHabitDetails(firstHabit)} style={{lineHeight:20, maxWidth:'100%'}}>{props.filterByDay?
-                                    ``:
-                                    `Every `}
-                                    {convertNumberToWeekday(habitSchedule.day)}{props.filterByDay?
-                                    ` between ${habitSchedule.fromHour.toUpperCase()} and ${habitSchedule.toHour.toUpperCase()}.`:
-                                    ` at ${habitSchedule.fromHour.toUpperCase()}.`}
-                                    </Text>
-                                    </>
-                                )
-                            })}
-                        </Body>
-                        
-                    </CardItem>
-                </Card>,
+           {habits.length ?([
+                <NextStepView key='0' habits={props.habits} filterByDay={props.filterByDay} filterByWeek={props.filterByWeek} onHabitDetails={props.onHabitDetails}></NextStepView>,
 
 
                 <Card key='1' style={{marginLeft:windowWidth*0.05, marginRight:windowWidth*0.05, borderRadius:10}}>
@@ -102,8 +80,8 @@ const HabitsHomeView = (props:iHabitProps) => {
                                     style={{color:colours.ltGray, fontSize: 20}}/>
                             </Body>
                         </CardItem>
-                </Card>]
-           ): null}
+                </Card>
+            ]): null}
         </Container>
     )
 }

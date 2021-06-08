@@ -62,6 +62,10 @@ export const commonStyles= StyleSheet.create({
         color: colours.dkGray,
         fontSize: windowHeight*0.03
     },
+    centeredBtnGrayTextSmall: {
+        color: colours.dkGray,
+        fontSize: windowHeight*0.025
+    },
     centeredGreenText: {
         color: colours.green,
         fontSize: windowHeight*0.03
