@@ -1,15 +1,12 @@
 import { Container } from 'native-base';
-import {Dimensions, StyleSheet} from 'react-native';
 import { IHabit, IUser, IUserStateAction, ScheduleTypes } from '../../constants/interfaces';
 import React, { useState } from 'react';
 
-import Calendar from './components/Calendar';
 import HabitEditor from './components/HabitEditor';
 import HabitDetails from './components/HabitDetails';
-import HabitsHomeView from './components/HabitsHomeView';
 import TopBar from './components/TopBar';
+import MidSection from './components/MidSection';
 import BottomBar from './components/BottomBar';
-import Settings from './components/Settings';
 import { connect } from 'react-redux';
 
 const emptyHabit:IHabit =  {
@@ -143,19 +140,7 @@ const HabitsScreen = (props: {reduxUserState: (arg0: IUserStateAction) => void, 
         !willEditHabit?(
             <Container>
                 <TopBar tab={selectedTab} show={showDetails} ></TopBar>
-
-                {selectedTab === 'habits'? (
-                <HabitsHomeView habits={props.authenticatedUser.habits} onHabitDetails={handleShowDetails}/>
-                ):null}
-
-                {selectedTab === 'calendar'? (
-                   <Calendar onHabitEditRequired={habitEditFromCalendar} authenticatedUser = {props.authenticatedUser} onHabitDetails={handleShowDetails}/>
-                ):null}
-
-                {selectedTab === 'settings'? (
-                   <Settings  authenticatedUser = {props.authenticatedUser}/>
-                ):null}
-                
+                <MidSection tab={selectedTab} user={props.authenticatedUser}></MidSection>
                 <BottomBar tab={selectedTab}></BottomBar>
             </Container>
         ): (
