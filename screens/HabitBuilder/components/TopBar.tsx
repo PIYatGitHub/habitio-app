@@ -1,11 +1,8 @@
 import { Badge, Body, Button, Card, CardItem, Container, Icon, Text } from 'native-base';
-import { Dimensions, StyleSheet } from 'react-native';
-import { IHabit, ScheduleTypes } from '../../../constants/interfaces';
 import React, { useState } from 'react';
 
 import colours from '../../../constants/Colours';
 import { topBarStyles } from '../../styles/topBarStyles';
-import { convertNumberToWeekday } from '../../../utils/convertWeekday';
 
 interface ITopBarProps {
     tab: string;
@@ -19,7 +16,7 @@ const TopBar = (props:ITopBarProps) => {
     }
     
     const handleCloseDetails = ()=>{
-        console.log(`Menu Button Pressed`)
+        console.log(`Close Button Pressed`)
     }
 
     if (props.tab !== 'settings' && !props.show){

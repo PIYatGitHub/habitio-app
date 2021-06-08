@@ -1,4 +1,4 @@
-import { Button, Container, Footer, FooterTab, Icon, Text } from 'native-base';
+import { Container } from 'native-base';
 import {Dimensions, StyleSheet} from 'react-native';
 import { IHabit, IUser, IUserStateAction, ScheduleTypes } from '../../constants/interfaces';
 import React, { useState } from 'react';
@@ -6,16 +6,11 @@ import React, { useState } from 'react';
 import Calendar from './components/Calendar';
 import HabitEditor from './components/HabitEditor';
 import HabitDetails from './components/HabitDetails';
-import HabitsView from './components/HabitsView';
 import HabitsHomeView from './components/HabitsHomeView';
 import TopBar from './components/TopBar';
+import BottomBar from './components/BottomBar';
 import Settings from './components/Settings';
-import colours from '../../constants/Colours';
-import { habitsScreenStyles } from '../styles/habitsScreenStyles';
 import { connect } from 'react-redux';
-
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
 
 const emptyHabit:IHabit =  {
     title: '',
@@ -147,7 +142,6 @@ const HabitsScreen = (props: {reduxUserState: (arg0: IUserStateAction) => void, 
     return (
         !willEditHabit?(
             <Container>
-                {/* header bar here! valide on 2 of 3 tabs (settings excluded) */}
                 <TopBar tab={selectedTab} show={showDetails} ></TopBar>
 
                 {selectedTab === 'habits'? (
@@ -161,43 +155,8 @@ const HabitsScreen = (props: {reduxUserState: (arg0: IUserStateAction) => void, 
                 {selectedTab === 'settings'? (
                    <Settings  authenticatedUser = {props.authenticatedUser}/>
                 ):null}
-                <Footer>
-                <FooterTab style={{
-                    backgroundColor:'white'
-                }}>
-                    <Button onPress={()=>{
-                        setSelectedTab('habits'); 
-                    }} 
-                    active = {selectedTab === 'habits'}
-                    style={selectedTab === 'habits'? 
-                    {backgroundColor:'transparent', borderBottomColor:colours.dkGray, borderBottomWidth:3}:
-                    {backgroundColor:'transparent', borderBottomColor:'transparent', borderBottomWidth:3}}
-                    >
-                        <Icon style={selectedTab === 'habits'?{color:colours.dkGray}: {color:colours.ltGray}} type='FontAwesome5' name='list'/>
-                        <Text style={selectedTab === 'habits'?{color:colours.dkGray}: {color:colours.ltGray}} uppercase={false}>My Habits</Text>
-                    </Button>
-                    <Button onPress={()=>{
-                        setSelectedTab('calendar'); 
-                    }} active = {selectedTab === 'calendar'}                    
-                    style={selectedTab === 'calendar'? 
-                    {backgroundColor:'transparent', borderBottomColor:colours.dkGray, borderBottomWidth:3}:
-                    {backgroundColor:'transparent', borderBottomColor:'transparent', borderBottomWidth:3}}
-                    >
-                        <Icon style={selectedTab === 'calendar'?{color:colours.dkGray}: {color:colours.ltGray}} type='FontAwesome5' name='calendar-check'/>
-                        <Text style={selectedTab === 'calendar'?{color:colours.dkGray}: {color:colours.ltGray}} uppercase={false}>Calendar</Text>
-                    </Button>
-                    <Button onPress={()=>{
-                        setSelectedTab('settings'); 
-                    }} active = {selectedTab === 'settings'}
-                    style={selectedTab === 'settings'? 
-                    {backgroundColor:'transparent', borderBottomColor:colours.dkGray, borderBottomWidth:3}:
-                    {backgroundColor:'transparent', borderBottomColor:'transparent', borderBottomWidth:3}}
-                    >
-                        <Icon style={selectedTab === 'settings'?{color:colours.dkGray}: {color:colours.ltGray}} type='FontAwesome5' name='cog'/>
-                        <Text style={selectedTab === 'settings'?{color:colours.dkGray}: {color:colours.ltGray}} uppercase={false}>Settings</Text>
-                    </Button>
-                </FooterTab>
-                </Footer>
+                
+                <BottomBar tab={selectedTab}></BottomBar>
             </Container>
         ): (
            <HabitEditor onHabitEdited={handleHabitChange} user={props.authenticatedUser} habitToEdit={seclectedHabit}/>
