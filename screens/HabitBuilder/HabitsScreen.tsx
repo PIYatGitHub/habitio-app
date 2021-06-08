@@ -134,30 +134,10 @@ const HabitsScreen = (props: {reduxUserState: (arg0: IUserStateAction) => void, 
         setSelectedTab('habits');
     }
 
-    const setActionBar = ()=>{
-        console.log(`GOING FOR THE HEADER SETUP....`, selectedTab, showDetails);
-        
-        if (selectedTab!=='settings' && !showDetails){
-            return (<TopBar></TopBar>)
-        }
-        if (showDetails){
-            return (
-                <Container style={habitsScreenStyles.actionBandMultipleAction}>
-                <Button style={{width:'33.33%', height:'100%'}} transparent> 
-                    <Icon type='FontAwesome5' name='chevron-left' onPress={handleCloseDetails} style={{color:colours.dkGray}}/>
-                </Button>
-                
-                <Text style={{...habitsScreenStyles.centeredBtnGrayText,lineHeight:windowHeight*0.08}}>Habits</Text>
-                <Text style={habitsScreenStyles.placeholder} uppercase={false}>+</Text>
-                </Container>)
-        }
-        return null; 
-    }
-
     if(showDetails){
         return  (
             <Container>
-                {setActionBar()}
+                <TopBar tab={selectedTab} show={showDetails} ></TopBar>
                 <HabitDetails habit={seclectedHabit || emptyHabit} onCancel={handleEditCancel} onEditTriggered={handleHabitEditCall}/>
             </Container>
         
@@ -168,7 +148,7 @@ const HabitsScreen = (props: {reduxUserState: (arg0: IUserStateAction) => void, 
         !willEditHabit?(
             <Container>
                 {/* header bar here! valide on 2 of 3 tabs (settings excluded) */}
-                {setActionBar()}
+                <TopBar tab={selectedTab} show={showDetails} ></TopBar>
 
                 {selectedTab === 'habits'? (
                 <HabitsHomeView habits={props.authenticatedUser.habits} onHabitDetails={handleShowDetails}/>

@@ -8,15 +8,29 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 export const topBarStyles = StyleSheet.create({
-    centerText: {
-        ...habitsScreenStyles.centeredBtnGrayText,
+    placeholder:{
+        color:'transparent',
+        width:'33.33%'
+    },
+    centeredActionBarText:{
+        width:'33.33%',
+        color:colours.dkGray,
+        textAlign:'center',
         lineHeight:windowHeight*0.08
     },
-    btnAddHabit: {
+    rightActionBtn:{
+        width:'33.34%',
+        height: windowHeight*0.08
+    },
+    centerText: {
+        ...habitsScreenStyles.centeredBtnGrayText,
+        lineHeight:windowHeight*0.08,
+    },
+    btnMenu: {
         fontSize:30,
-        textAlign:'right',
-        width:'100%',
-        color:colours.dkGray
+        textAlign:'left',
+        width: 10,
+        color:colours.dkGray,
     },
    ...habitsScreenStyles
   });
