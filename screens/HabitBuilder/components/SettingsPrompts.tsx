@@ -13,7 +13,7 @@ interface IPromptsProps {
     authenticatedUser:IUser;
 }
 
-const Settings_Prompts = (props: IPromptsProps) => {
+const SettingsPrompts = (props: IPromptsProps) => {
     const [isCarrot, setIsCarrot] = useState(true); 
     const [isCarrot1Checked, setIsCarrot1Checked] = useState(true); 
     const [isCarrot2Checked, setIsCarrot2Checked] = useState(true); 
@@ -105,7 +105,7 @@ const Settings_Prompts = (props: IPromptsProps) => {
         </Container>
     )
 }
-export default Settings_Prompts;
+export default SettingsPrompts;
 
 const styles = StyleSheet.create({
     buttonsContainer: {

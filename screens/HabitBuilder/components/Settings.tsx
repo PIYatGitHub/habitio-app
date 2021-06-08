@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 
 import { IUser } from '../../../constants/interfaces';
 import SettingsDateFormat from './SettingsDateFormat';
-import Settings_Prompts from './Settings_Prompts';
+import SettingsPrompts from './SettingsPrompts';
 import colours from '../../../constants/Colours';
 import { commonStyles } from '../../styles/commonStyles';
 
@@ -27,7 +27,7 @@ const Settings = (props: ISettingsProps) => {
 
 
     if(willCustomizePrompts)
-        return <Settings_Prompts onEditDone={handlePromptsEdited} authenticatedUser ={props.authenticatedUser}/>
+        return <SettingsPrompts onEditDone={handlePromptsEdited} authenticatedUser ={props.authenticatedUser}/>
     
 
     if(willCustomizeDate)
