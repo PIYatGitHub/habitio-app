@@ -15,7 +15,7 @@ interface iHabitProps {
 }
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-const Habits_Home_View = (props:iHabitProps) => {
+const HabitsHomeView = (props:iHabitProps) => {
     let habits:IHabit[] = Object.assign([], props.habits);
     let firstHabit:IHabit = habits[0];
 
@@ -104,7 +104,7 @@ const Habits_Home_View = (props:iHabitProps) => {
         </Container>
     )
 }
-export default Habits_Home_View;
+export default HabitsHomeView;
 
 const styles = StyleSheet.create({
     blankHabitsContainer:{

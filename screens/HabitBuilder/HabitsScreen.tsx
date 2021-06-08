@@ -7,7 +7,7 @@ import Calendar from './components/Calendar';
 import HabitEditor from './components/HabitEditor';
 import Habit_Details from './components/Habit_Details';
 import Habits_View from './components/Habits_View';
-import Habits_Home_View from './components/Habits_Home_View';
+import HabitsHomeView from './components/HabitsHomeView';
 import Settings from './components/Settings';
 import colours from '../../constants/Colours';
 import { habitsScreenStyles } from '../styles/habitsScreenStyles';
@@ -182,7 +182,7 @@ const HabitsScreen = (props: {reduxUserState: (arg0: IUserStateAction) => void, 
                 {setActionBar()}
 
                 {selectedTab === 'habits'? (
-                <Habits_Home_View habits={props.authenticatedUser.habits} onHabitDetails={handleShowDetails}/>
+                <HabitsHomeView habits={props.authenticatedUser.habits} onHabitDetails={handleShowDetails}/>
                 ):null}
 
                 {selectedTab === 'calendar'? (
