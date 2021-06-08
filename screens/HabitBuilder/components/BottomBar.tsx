@@ -2,7 +2,6 @@ import { Button, Footer, FooterTab, Icon, Text } from 'native-base';
 import React, { useState } from 'react';
 
 import colours from '../../../constants/Colours';
-import { topBarStyles } from '../../styles/topBarStyles';
 
 interface IBottomBarProps {
     tab: string;
@@ -67,5 +66,3 @@ const BottomBar = (props:IBottomBarProps) => {
     );
 }
 export default BottomBar;
-
-const styles = topBarStyles;
