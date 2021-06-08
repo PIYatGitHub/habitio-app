@@ -1,6 +1,7 @@
 import { Dimensions } from "react-native";
 import { StyleSheet } from 'react-native';
 import colours from '../../constants/Colours';
+import { marginTop } from "../../utils/generic";
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -40,11 +41,10 @@ export const commonStyles= StyleSheet.create({
         borderBottomColor: colours.ltGray,
         borderBottomWidth: 1,
         flexGrow:1, 
-        height: windowHeight *0.07,
-        maxHeight: windowHeight *0.07,
+        height: windowHeight *0.08,
+        maxHeight: windowHeight *0.08,
         marginBottom: windowHeight*0.03,
-        //For IPhone it breaks with small top marign
-        marginTop: windowHeight*0.05,
+        marginTop: windowHeight*marginTop,
     },
     actionBandSingleAction: {
         display:'flex',
@@ -55,7 +55,8 @@ export const commonStyles= StyleSheet.create({
         flexGrow:1, 
         height: windowHeight *0.08,
         maxHeight: windowHeight *0.08,
-        marginBottom: windowHeight*0.03
+        marginBottom: windowHeight*0.03,
+        marginTop: windowHeight*marginTop,
     },
     centeredBtnGrayText: {
         color: colours.dkGray,
