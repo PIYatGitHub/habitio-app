@@ -142,7 +142,7 @@ const HabitsScreen = (props: {reduxUserState: (arg0: IUserStateAction) => void, 
             <Container>
                 <TopBar tab={selectedTab} show={showDetails} ></TopBar>
                 <MidSection tab={selectedTab} user={props.authenticatedUser}></MidSection>
-                <BottomBar tab={selectedTab}></BottomBar>
+                <BottomBar></BottomBar>
             </Container>
         ): (
            <HabitEditor onHabitEdited={handleHabitChange} user={props.authenticatedUser} habitToEdit={seclectedHabit}/>
