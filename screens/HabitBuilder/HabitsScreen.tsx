@@ -20,10 +20,10 @@ const emptyHabit:IHabit =  {
 
 const HabitsScreen = (props: {reduxUserState: (arg0: IUserStateAction) => void, authenticatedUser: IUser; navigation: string[]}) => {
     const [selectedTab, setSelectedTab] = useState('habits'); 
+    const [showDetails, setShowDetails] = useState(false); 
     const [willEditHabit, setWillEditHabit] = useState(false); 
     const [habits, setHabits] = useState<IHabit[]>(props.authenticatedUser.habits);
     const [seclectedHabit, setSelectedHabit] = useState<IHabit | undefined>(undefined); 
-    const [showDetails, setShowDetails] = useState(false); 
 
     const handleTriggerHabitCreate = ()=>{
         setWillEditHabit(true); 
@@ -142,7 +142,7 @@ const HabitsScreen = (props: {reduxUserState: (arg0: IUserStateAction) => void, 
             <Container>
                 <TopBar tab={selectedTab} show={showDetails} ></TopBar>
                 <MidSection tab={selectedTab} user={props.authenticatedUser}></MidSection>
-                <BottomBar></BottomBar>
+                <BottomBar authenticatedUser={props.authenticatedUser} navigation={props.navigation} reduxUserState={props.reduxUserState}></BottomBar>
             </Container>
         ): (
            <HabitEditor onHabitEdited={handleHabitChange} user={props.authenticatedUser} habitToEdit={seclectedHabit}/>
