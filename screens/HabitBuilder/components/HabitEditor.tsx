@@ -16,6 +16,7 @@ interface IEditHabitProps {
 const emptyHabit:IHabit =  {
     title: '',
     goals: [],
+    rewards: [],
     habitId:-1,
     habitScheduleType:ScheduleTypes.unknown,
     habitSchedule:[{day:-1, fromHour:'', toHour:''}]  
