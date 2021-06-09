@@ -75,12 +75,12 @@ const HabitsHomeView = (props:iHabitProps) => {
 
                 <Card key='2' style={{marginLeft:windowWidth*0.05, marginRight:windowWidth*0.05, borderRadius:10}}>
                     <CardItem style={{borderRadius:10}}>
-                            <Body style={{display:'flex', flexDirection:'row', justifyContent:'space-between'}}>
-                                <Text style={styles.centeredGreenText} onPress= {()=>handleOpenHabitDetails(firstHabit)}>All Habits</Text>
-                                <Icon type='FontAwesome5' name='chevron-right' onPress= {()=>handleOpenHabitDetails(firstHabit)}
-                                    style={{color:colours.ltGray, fontSize: 20}}/>
-                            </Body>
-                        </CardItem>
+                        <Body style={{display:'flex', flexDirection:'row', justifyContent:'space-between'}}>
+                            <Text style={styles.centeredGreenText} onPress= {()=>handleOpenHabitDetails(firstHabit)}>All Habits</Text>
+                            <Icon type='FontAwesome5' name='chevron-right' onPress= {()=>handleOpenHabitDetails(firstHabit)}
+                                style={{color:colours.ltGray, fontSize: 20}}/>
+                        </Body>
+                    </CardItem>
                 </Card>
             ]): null}
         </Container>
