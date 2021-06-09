@@ -1,19 +1,13 @@
-import { Button, Container, Footer, FooterTab, Icon, Text } from 'native-base';
-import {Dimensions, StyleSheet} from 'react-native';
+import { Container } from 'native-base';
 import { IHabit, IUser, IUserStateAction, ScheduleTypes } from '../../constants/interfaces';
 import React, { useState } from 'react';
 
-import Calendar from './components/Calendar';
 import HabitEditor from './components/HabitEditor';
-import Habit_Details from './components/Habit_Details';
-import Habits_View from './components/Habits_View';
-import Settings from './components/Settings';
-import colours from '../../constants/Colours';
-import { commonStyles } from '../styles/commonStyles';
+import HabitDetails from './components/HabitDetails';
+import TopBar from './components/TopBar';
+import MidSection from './components/MidSection';
+import BottomBar from './components/BottomBar';
 import { connect } from 'react-redux';
-
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
 
 const emptyHabit:IHabit =  {
     title: '',
@@ -38,7 +32,13 @@ const HabitsScreen = (props: {reduxUserState: (arg0: IUserStateAction) => void, 
         //so far we support only adding habits really. 
         try {
             console.log(`In here with habit=`, habit);       
-            console.log(`In here with authUSerhabits=`, props.authenticatedUser.habits);       
+            console.log(`In here with authenticatedUser=`, props.authenticatedUser);       
+            console.log(`In here with authUserHabits=`, props.authenticatedUser.habits);
+            
+            if(props.authenticatedUser.habits === undefined) {
+                props.authenticatedUser.habits = [];
+            }
+            
             if(habit!==null && !seclectedHabit) {
                 let newHabits:IHabit[] = Object.assign([], habits);
                 if(habit.habitId === -1){
@@ -126,43 +126,11 @@ const HabitsScreen = (props: {reduxUserState: (arg0: IUserStateAction) => void, 
         setSelectedTab('habits');
     }
 
-    const setActionBar = ()=>{
-        console.log(`GOING FOR THE HEADER SETUP....`, selectedTab, showDetails);
-        
-        if (selectedTab!=='settings' && !showDetails){
-            return (
-            <Container style={styles.actionBandMultipleAction}>
-            <Text style={styles.placeholder} uppercase={false}>+</Text>
-            <Text style={{...styles.centeredBtnGrayText,lineHeight:windowHeight*0.08}}>My habits</Text>
-            <Button style={styles.rightActionBtn} transparent onPress = {handleTriggerHabitCreate}>
-                <Text uppercase={false} style={{
-                    fontSize:30,
-                    textAlign:'right',
-                    width:'100%',
-                    color:colours.dkGray
-                }}>+</Text>
-            </Button> 
-            </Container>)
-        }
-        if (showDetails){
-            return (
-                <Container style={styles.actionBandMultipleAction}>
-                <Button style={{width:'33.33%', height:'100%'}} transparent> 
-                    <Icon type='FontAwesome5' name='chevron-left' onPress={handleCloseDetails} style={{color:colours.dkGray}}/>
-                </Button>
-                
-                <Text style={{...styles.centeredBtnGrayText,lineHeight:windowHeight*0.08}}>Habits</Text>
-                <Text style={styles.placeholder} uppercase={false}>+</Text>
-                </Container>)
-        }
-        return null; 
-    }
-
     if(showDetails){
         return  (
             <Container>
-                {setActionBar()}
-                <Habit_Details habit={seclectedHabit || emptyHabit} onCancel={handleEditCancel} onEditTriggered={handleHabitEditCall}/>
+                <TopBar tab={selectedTab} show={showDetails} ></TopBar>
+                <HabitDetails habit={seclectedHabit || emptyHabit} onCancel={handleEditCancel} onEditTriggered={handleHabitEditCall}/>
             </Container>
         
         )
@@ -171,94 +139,15 @@ const HabitsScreen = (props: {reduxUserState: (arg0: IUserStateAction) => void, 
     return (
         !willEditHabit?(
             <Container>
-                {/* header bar here! valide on 2 of 3 tabs (settings excluded) */}
-                {setActionBar()}
-
-                {selectedTab === 'habits'? (
-                <Habits_View habits={props.authenticatedUser.habits} onHabitDetails={handleShowDetails}/>
-                ):null}
-
-                {selectedTab === 'calendar'? (
-                   <Calendar onHabitEditRequired={habitEditFromCalendar} authenticatedUser = {props.authenticatedUser} onHabitDetails={handleShowDetails}/>
-                ):null}
-
-                {selectedTab === 'settings'? (
-                   <Settings  authenticatedUser = {props.authenticatedUser}/>
-                ):null}
-                <Footer>
-                <FooterTab style={{
-                    backgroundColor:'white'
-                }}>
-                    <Button onPress={()=>{
-                        setSelectedTab('habits'); 
-                    }} 
-                    active = {selectedTab === 'habits'}
-                    style={selectedTab === 'habits'? 
-                    {backgroundColor:'transparent', borderBottomColor:colours.dkGray, borderBottomWidth:3}:
-                    {backgroundColor:'transparent', borderBottomColor:'transparent', borderBottomWidth:3}}
-                    >
-                        <Icon style={selectedTab === 'habits'?{color:colours.dkGray}: {color:colours.ltGray}} type='FontAwesome5' name='list'/>
-                        <Text style={selectedTab === 'habits'?{color:colours.dkGray}: {color:colours.ltGray}} uppercase={false}>My Habits</Text>
-                    </Button>
-                    <Button onPress={()=>{
-                        setSelectedTab('calendar'); 
-                    }} active = {selectedTab === 'calendar'}                    
-                    style={selectedTab === 'calendar'? 
-                    {backgroundColor:'transparent', borderBottomColor:colours.dkGray, borderBottomWidth:3}:
-                    {backgroundColor:'transparent', borderBottomColor:'transparent', borderBottomWidth:3}}
-                    >
-                        <Icon style={selectedTab === 'calendar'?{color:colours.dkGray}: {color:colours.ltGray}} type='FontAwesome5' name='calendar-check'/>
-                        <Text style={selectedTab === 'calendar'?{color:colours.dkGray}: {color:colours.ltGray}} uppercase={false}>Calendar</Text>
-                    </Button>
-                    <Button onPress={()=>{
-                        setSelectedTab('settings'); 
-                    }} active = {selectedTab === 'settings'}
-                    style={selectedTab === 'settings'? 
-                    {backgroundColor:'transparent', borderBottomColor:colours.dkGray, borderBottomWidth:3}:
-                    {backgroundColor:'transparent', borderBottomColor:'transparent', borderBottomWidth:3}}
-                    >
-                        <Icon style={selectedTab === 'settings'?{color:colours.dkGray}: {color:colours.ltGray}} type='FontAwesome5' name='cog'/>
-                        <Text style={selectedTab === 'settings'?{color:colours.dkGray}: {color:colours.ltGray}} uppercase={false}>Settings</Text>
-                    </Button>
-                </FooterTab>
-                </Footer>
+                <TopBar tab={selectedTab} show={showDetails} ></TopBar>
+                <MidSection tab={selectedTab} user={props.authenticatedUser}></MidSection>
+                <BottomBar tab={selectedTab}></BottomBar>
             </Container>
         ): (
            <HabitEditor onHabitEdited={handleHabitChange} user={props.authenticatedUser} habitToEdit={seclectedHabit}/>
         )        
     )
 }
-
-const styles = StyleSheet.create({
-    placeholder:{
-        color:'transparent',
-        width:'33.33%'
-    },
-    centeredActionBarText:{
-        width:'33.33%',
-        color:colours.dkGray,
-        textAlign:'center',
-        lineHeight:windowHeight*0.08
-    },
-    rightActionBtn:{
-        width:'33.34%',
-        height: windowHeight*0.08
-    },
-    rightActionBtnText:{
-        fontSize:30,
-        textAlign:'right',
-        width:'100%',
-        color:colours.dkGray
-    },
-    buttonRowContainer: {
-        display:'flex',
-        flexDirection:'row',
-        height: 48,
-        marginTop:20, 
-        marginBottom:0,
-    },
-   ...commonStyles
-  });
 
 const mapStateToProps = (state: { authReducer: { user:IUser }; }) => {
     return {

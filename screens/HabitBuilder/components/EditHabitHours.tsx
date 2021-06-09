@@ -4,7 +4,7 @@ import { IHabit, IHabitShedule, ScheduleTypes, StatesEnum, weekDayMap } from '..
 import React, { Fragment, useState } from 'react';
 
 import DateTimePicker from '@react-native-community/datetimepicker';
-import EditHabit_HourPicker from './EditHabit_HourPicker';
+import EditHabitHourPicker from './EditHabitHourPicker';
 import colours from '../../../constants/Colours';
 import { commonStyles } from '../../styles/commonStyles';
 import { convertNumberToWeekday } from '../../../utils/convertWeekday';
@@ -22,7 +22,7 @@ const emptySchedule:IHabitShedule = {
     fromHour:'',
     toHour:''
 }
-const EditHabit_Hours = (props:iSetHabitHoursProps) => {
+const EditHabitHours = (props:iSetHabitHoursProps) => {
     const initialHabitsValue:IHabitShedule[] = props.habitToEdit?.habitScheduleType===ScheduleTypes.fluid?
     [{day:0, fromHour:'10:30 am', toHour: ''}]: []; 
     console.log(`what I am about to set here? `, initialHabitsValue);
@@ -195,7 +195,7 @@ const EditHabit_Hours = (props:iSetHabitHoursProps) => {
                     <Body>
                         <Text style={{marginLeft:15, color:colours.dkGray}}>{dow}</Text>
                         {activatedDows.includes(dow)?(                            
-                            <EditHabit_HourPicker  selectedHabitSchedule = {getCurrentSchedule(dow)}
+                            <EditHabitHourPicker  selectedHabitSchedule = {getCurrentSchedule(dow)}
                             onHbitHoursChanged={handleHoursChanged}
                             />                            
                         ):null}
@@ -240,7 +240,7 @@ const EditHabit_Hours = (props:iSetHabitHoursProps) => {
     </Container>
     )
 }
-export default EditHabit_Hours;
+export default EditHabitHours;
 
 const styles = StyleSheet.create({
     container: {

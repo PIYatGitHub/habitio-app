@@ -1,10 +1,10 @@
 import { IHabit, IHabitShedule, IUser, ScheduleTypes, StatesEnum } from '../../../constants/interfaces';
 import React, { useState } from 'react';
 
-import CreateHabit_Examples from './CreateHabit_Examples';
-import EditHabit_Goals from './EditHabit_Goals';
-import EditHabit_Hours from './EditHabit_Hours';
-import EditHabit_ScheduleType from './EditHabit_ScheduleType';
+import CreateHabitExamples from './CreateHabitExamples';
+import EditHabitGoals from './EditHabitGoals';
+import EditHabitHours from './EditHabitHours';
+import EditHabitScheduleType from './EditHabitScheduleType';
 import { Text } from 'native-base';
 
 interface IEditHabitProps {
@@ -69,25 +69,25 @@ const HabitEditor = (props:IEditHabitProps) => {
 
     if(currentStep === StatesEnum.setGoals ) {
         return(
-            <EditHabit_Goals onSetHabitGoals={handleHabitGoalsChange} habitToEdit={habit}/>
+            <EditHabitGoals onSetHabitGoals={handleHabitGoalsChange} habitToEdit={habit}/>
         )
     }
 
     if(currentStep === StatesEnum.setScheduleType) {
         return(
-           <EditHabit_ScheduleType onSetScheduleType={handleHabitSchedultTypeChange} habitToEdit={habit}/>
+           <EditHabitScheduleType onSetScheduleType={handleHabitSchedultTypeChange} habitToEdit={habit}/>
         )
     }
 
     if(currentStep === StatesEnum.showExamples) {
         return(
-            <CreateHabit_Examples onHasSchownHabitExamples = {handleHasShownHabitExamples} />
+            <CreateHabitExamples onHasSchownHabitExamples = {handleHasShownHabitExamples} />
         )
     }
 
     if(currentStep === StatesEnum.setHours) {
         return(
-            <EditHabit_Hours onSetHabitHours={handleHabitHoursChange} habitToEdit={habit}/>
+            <EditHabitHours onSetHabitHours={handleHabitHoursChange} habitToEdit={habit}/>
         )
     }
 

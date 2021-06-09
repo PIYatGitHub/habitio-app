@@ -13,7 +13,7 @@ interface IDateFormatProps {
     authenticatedUser: IUser; 
 }
 
-const Settings_DateFormat = (props: IDateFormatProps) => {
+const SettingsDateFormat = (props: IDateFormatProps) => {
     const [currentDateFormat, setCurrentDateFormat] = useState('DD/MM/YY')
     const handleCancel = ()=>{
         console.log(`cancel here...`);
@@ -51,7 +51,7 @@ const Settings_DateFormat = (props: IDateFormatProps) => {
         </Container>
     )
 }
-export default Settings_DateFormat;
+export default SettingsDateFormat;
 
 const styles = StyleSheet.create({
     container: {

@@ -14,7 +14,7 @@ interface IEditHabitScheduleTypeProps {
 }
 
 
-const EditHabit_ScheduleType = (props:IEditHabitScheduleTypeProps) => {
+const EditHabitScheduleType = (props:IEditHabitScheduleTypeProps) => {
     const selectedSchType = props.habitToEdit ? props.habitToEdit.habitScheduleType : ScheduleTypes.unknown;
     const handleNextStep = (scheduleType:ScheduleTypes, status:StatesEnum)=> {
        props.onSetScheduleType(scheduleType, status); 
@@ -58,7 +58,7 @@ const EditHabit_ScheduleType = (props:IEditHabitScheduleTypeProps) => {
     </Container>
     )
 }
-export default EditHabit_ScheduleType;
+export default EditHabitScheduleType;
 
 const styles = StyleSheet.create({
     container: {

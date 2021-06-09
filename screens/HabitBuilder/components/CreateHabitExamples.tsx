@@ -13,7 +13,7 @@ interface iShowHabitsExamplesProps {
 }
 
 
-const CreateHabit_Examples = (props:iShowHabitsExamplesProps) => {
+const CreateHabitExamples = (props:iShowHabitsExamplesProps) => {
     const handleNextStep = (step:StatesEnum, scheduleType?: ScheduleTypes)=> {
         props.onHasSchownHabitExamples(step, scheduleType); 
     }
@@ -61,7 +61,7 @@ const CreateHabit_Examples = (props:iShowHabitsExamplesProps) => {
     </Container>
     )
 }
-export default CreateHabit_Examples;
+export default CreateHabitExamples;
 
 const styles = StyleSheet.create({
     container: {

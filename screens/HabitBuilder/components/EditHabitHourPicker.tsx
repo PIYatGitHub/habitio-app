@@ -15,7 +15,7 @@ interface IHabitHourPickerProps {
 }
 
 
-const EditHabit_HourPicker = (props:IHabitHourPickerProps) => {
+const EditHabitHourPicker = (props:IHabitHourPickerProps) => {
     const [showSetHourFrom, setShowHourFrom] = useState(false);
     const [showSetHourTo, setShowHourTo] = useState(false);
     
@@ -132,7 +132,7 @@ const EditHabit_HourPicker = (props:IHabitHourPickerProps) => {
         </Container>
     )
 }
-export default EditHabit_HourPicker;
+export default EditHabitHourPicker;
 
 const styles = StyleSheet.create({
     container: {

@@ -1,6 +1,7 @@
 import { Dimensions } from "react-native";
 import { StyleSheet } from 'react-native';
 import colours from '../../constants/Colours';
+import { marginTop } from "../../utils/generic";
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -42,7 +43,8 @@ export const commonStyles= StyleSheet.create({
         flexGrow:1, 
         height: windowHeight *0.08,
         maxHeight: windowHeight *0.08,
-        marginBottom: windowHeight*0.03
+        marginBottom: windowHeight*0.03,
+        marginTop: windowHeight*marginTop,
     },
     actionBandSingleAction: {
         display:'flex',
@@ -53,10 +55,19 @@ export const commonStyles= StyleSheet.create({
         flexGrow:1, 
         height: windowHeight *0.08,
         maxHeight: windowHeight *0.08,
-        marginBottom: windowHeight*0.03
+        marginBottom: windowHeight*0.03,
+        marginTop: windowHeight*marginTop,
     },
     centeredBtnGrayText: {
         color: colours.dkGray,
+        fontSize: windowHeight*0.03
+    },
+    centeredBtnGrayTextSmall: {
+        color: colours.dkGray,
+        fontSize: windowHeight*0.025
+    },
+    centeredGreenText: {
+        color: colours.green,
         fontSize: windowHeight*0.03
     },
     centeredBtnGreenText: {

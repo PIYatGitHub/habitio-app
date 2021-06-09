@@ -4,7 +4,7 @@ import { IHabit, ScheduleTypes } from '../../../constants/interfaces';
 import React, { useState } from 'react';
 
 import colours from '../../../constants/Colours';
-import { commonStyles } from '../../styles/commonStyles';
+import { habitsViewStyles } from '../../styles/habitsViewStyles';
 import { convertNumberToWeekday } from '../../../utils/convertWeekday';
 
 interface iHabitProps {
@@ -15,7 +15,7 @@ interface iHabitProps {
 }
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-const Habits_View = (props:iHabitProps) => {
+const HabitsView = (props:iHabitProps) => {
     let habits:IHabit[] = Object.assign([], props.habits);
     
     if(props.filterByDay){
@@ -75,37 +75,7 @@ const Habits_View = (props:iHabitProps) => {
         </Container>
     )
 }
-export default Habits_View;
+export default HabitsView;
 
-const styles = StyleSheet.create({
-    blankHabitsContainer:{
-        marginLeft:windowWidth*0.1,
-        marginRight:windowWidth*0.1,
-        marginTop:windowHeight*0.2
-    },
-    blankHabitsContainerText:{
-        color: colours.ltGray,
-        fontSize:20,
-        textAlign:'center'
-    },
-    container: {
-        display:'flex',
-        flexDirection:'column',
-        justifyContent:'flex-start',
-        marginLeft:windowWidth*0.05,
-        marginRight:windowWidth*0.05,
-        marginTop:5,
-        borderWidth: 2,
-        borderColor:colours.ltGray,
-        borderRadius:10,
-        height: windowHeight*0.3,
-        maxHeight: windowHeight*0.3     
-    },
-    flexRowWrap: {
-        display:'flex',
-        flexDirection:'row', 
-        flexWrap:'wrap'
-    },
-    ...commonStyles
-  });
+const styles = habitsViewStyles;
   
