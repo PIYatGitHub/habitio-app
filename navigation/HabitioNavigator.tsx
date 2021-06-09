@@ -1,4 +1,5 @@
 import HabitsScreen from "../screens/HabitBuilder/HabitsScreen";
+import EditHabitsScreen from "../screens/HabitBuilder/EditHabitScreen";
 import LandingScreen from "../screens/Landing/LandingScreen";
 import LoginScreen from "../screens/Auth/LoginScreen";
 import MotivationScreen from "../screens/Motivation/MotivationScreen";
@@ -43,7 +44,13 @@ const habitioNavigator = createStackNavigator(
     HabitsScreen: {
       screen: HabitsScreen,
       navigationOptions: {
-        title: "",
+        title: "Test",
+      },
+    },
+    EditHabitsScreen: {
+      screen: EditHabitsScreen,
+      navigationOptions: {
+        title: "Edit Test",
       },
     },
   },
