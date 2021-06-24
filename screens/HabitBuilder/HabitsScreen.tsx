@@ -13,9 +13,13 @@ const emptyHabit:IHabit =  {
     title: '',
     goals: [],
     rewards: [],
+    positiveMotivators: [],
+    negativeMotivators: [],
     habitId:-1,
+    notes: '',
     habitScheduleType:ScheduleTypes.unknown,
-    habitSchedule:[{day:-1, fromHour:'', toHour:''}]  
+    habitSchedule:[{day:-1, fromHour:'', toHour:''}],  
+    steps: [], 
 }
 
 const HabitsScreen = (props: {reduxUserState: (arg0: IUserStateAction) => void, authenticatedUser: IUser; navigation: string[]}) => {
@@ -127,27 +131,21 @@ const HabitsScreen = (props: {reduxUserState: (arg0: IUserStateAction) => void, 
         setSelectedTab('habits');
     }
 
-    if(showDetails){
-        return  (
-            <Container>
-                <TopBar tab={selectedTab} show={showDetails} ></TopBar>
-                <HabitDetails habit={seclectedHabit || emptyHabit} onCancel={handleEditCancel} onEditTriggered={handleHabitEditCall}/>
-            </Container>
-        
-        )
-    }
-
     return (
-        !willEditHabit?(
-            <Container>
-                <TopBar tab={selectedTab} show={showDetails} ></TopBar>
-                <MidSection tab={selectedTab} user={props.authenticatedUser}></MidSection>
-                <BottomBar authenticatedUser={props.authenticatedUser} navigation={props.navigation} reduxUserState={props.reduxUserState}></BottomBar>
-            </Container>
-        ): (
-           <HabitEditor onHabitEdited={handleHabitChange} user={props.authenticatedUser} habitToEdit={seclectedHabit}/>
-        )        
-    )
+        <Container>
+            <TopBar 
+                leftIconName='cog' 
+                //leftText='Settings'
+                leftOnPress={() => console.log('Gear Menu Pressed')} 
+                rightIconName='question' 
+                //rightText='Feedback'
+                rightOnPress={()=>console.log('Question Menu Pressed')} 
+                centerText='Home'></TopBar>
+            <MidSection tab={selectedTab} user={props.authenticatedUser}></MidSection>
+            <BottomBar authenticatedUser={props.authenticatedUser} navigation={props.navigation} reduxUserState={props.reduxUserState}></BottomBar>
+        </Container>
+    )        
+    
 }
 
 const mapStateToProps = (state: { authReducer: { user:IUser }; }) => {

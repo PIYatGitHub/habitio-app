@@ -26,13 +26,24 @@ export interface IHabitShedule{
     fromHour:string;
     toHour:string; 
 }
+
 export interface IHabit {
     title: string;
     goals: string[];
     rewards: string[];
+    positiveMotivators: string[];
+    negativeMotivators: string[];
+    notes: string;
     habitId: number;
+    steps: IStep[];
     habitScheduleType: ScheduleTypes;
     habitSchedule:IHabitShedule[]; 
+}
+
+export interface IStep {
+    name: string;
+    reward: string;
+    schedule: IHabitShedule[]; 
 }
 
 export enum StatesEnum {
