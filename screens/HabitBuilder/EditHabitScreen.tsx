@@ -23,17 +23,23 @@ const emptyHabit:IHabit =  {
     steps: [], 
 }
 
-interface IEditHabitScreenProps {
+interface IEditStepScreenProps {
     onSetHabitGoals: (title:string, goals:string[], step:StatesEnum)=>void
     habitToEdit?: IHabit; 
     navigation: string[];
 }
 
-const EditHabitScreen = (props:IEditHabitScreenProps) => {
+const EditHabitScreen = (props:IEditStepScreenProps) => {
     const [title, setTitle] = useState(props.habitToEdit? props.habitToEdit.title: ''); 
     const [notes, setNotes] = useState(props.habitToEdit? props.habitToEdit.notes: ''); 
     const [positiveMotivators, setPositiveMotivator] = useState<string[]>(props.habitToEdit? props.habitToEdit.positiveMotivators: ['']); 
     const [negativeMotivators, setNegativeMotivator] = useState<string[]>(props.habitToEdit? props.habitToEdit.negativeMotivators: ['']); 
+
+    const openScreen = (screenName:string) => {
+        console.log(`openScreen: `, screenName);
+
+        props.navigation.push(screenName);
+    }
 
     const handleTitleChange = (value:string) => {
         let newTitle:string = Object.assign('', title); 
@@ -80,15 +86,14 @@ const EditHabitScreen = (props:IEditHabitScreenProps) => {
                 rightIconName='check' 
                 //rightText='Done'
                 rightOnPress={()=>console.log('Habit Creation Done')} 
-                centerText='Add 
-                Habit'></TopBar>
+                centerText='Add Habit'></TopBar>
                 <Text style={styles.text}>Name:</Text>
                 <Item>
                     <Input placeholder='Doing YouTube videos' onChangeText={(e)=>handleTitleChange(e)} style={styles.borderedInput} value={title}/>
                 </Item>
                 <Text style={styles.text}>Notes:</Text>
                 <Item>
-                    <Input placeholder='Doing YouTube videos' onChangeText={(e)=>handleNotesChange(e)} style={styles.borderedInput} value={notes}/>
+                    <Input placeholder='I will create great and big channel' onChangeText={(e)=>handleNotesChange(e)} style={styles.borderedInput} value={notes}/>
                 </Item>
                 <Text style={styles.text}>What will I be if I have this habit?</Text>
                 <Item>
@@ -114,7 +119,7 @@ const EditHabitScreen = (props:IEditHabitScreenProps) => {
                 }) : <Card key='0' style={styles.cardStyle}>
                         <CardItem style={styles.cardItemStyle}>
                             <Body style={{display:'flex', flexDirection:'row', justifyContent:'space-between'}}>
-                                <Text style={styles.centeredGreenText} onPress= {()=>handleAddStepPress()}>+ Add new step</Text>
+                                <Text style={styles.centeredGreenText} onPress= {()=>openScreen("EditStepScreen")}>+ Add new step</Text>
                             </Body>
                         </CardItem>
                     </Card>}

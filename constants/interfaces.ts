@@ -42,6 +42,7 @@ export interface IHabit {
 
 export interface IStep {
     name: string;
+    notes: string;
     reward: string;
     schedule: IHabitShedule[]; 
 }
