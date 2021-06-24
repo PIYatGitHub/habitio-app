@@ -17,9 +17,13 @@ const emptyHabit:IHabit =  {
     title: '',
     goals: [],
     rewards: [],
+    positiveMotivators: [],
+    negativeMotivators: [],
+    notes: '',
     habitId:-1,
     habitScheduleType:ScheduleTypes.unknown,
-    habitSchedule:[{day:-1, fromHour:'', toHour:''}]  
+    habitSchedule:[{day:-1, fromHour:'', toHour:''}],  
+    steps: [],
 }
 const HabitEditor = (props:IEditHabitProps) => {
     const [habit, setHabit] = useState<IHabit>(props.habitToEdit? props.habitToEdit: emptyHabit); 

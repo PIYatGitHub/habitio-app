@@ -26,9 +26,13 @@ const HabitsHomeView = (props:iHabitProps) => {
             title: "Work on HabitIO",
             goals: ["Hard working"],
             rewards: ["Play some guitar"],
+            positiveMotivators: [],
+            negativeMotivators: [],
+            notes: '',
             habitId: 0,
             habitSchedule: [{day: 1, fromHour:"10:10", toHour:"10:13"}],
-            habitScheduleType: ScheduleTypes.fixed
+            habitScheduleType: ScheduleTypes.fixed,  
+            steps: [],
         } 
 
         habits.push(exampleHabit)

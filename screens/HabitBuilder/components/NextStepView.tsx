@@ -33,9 +33,13 @@ const NextStepView = (props:INextStepViewProps) => {
             title: "Work on HabitIO",
             goals: ["Hard working"],
             rewards: ["Play some guitar"],
+            positiveMotivators: [],
+            negativeMotivators: [],
             habitId: 0,
+            notes: '',
             habitSchedule: [{day: 1, fromHour:"10:10", toHour:"10:13"}],
-            habitScheduleType: ScheduleTypes.fixed
+            habitScheduleType: ScheduleTypes.fixed,  
+            steps: [],
         } 
 
         habits.push(exampleHabit)
@@ -92,13 +96,13 @@ const NextStepView = (props:INextStepViewProps) => {
             
             <CardItem style={{borderRadius:10}}>
                 <Body style={{display:'flex', flexDirection:'row', justifyContent:'space-between'}}>
-                    <Button>
-                        <Text>Done</Text>
-                        <Icon type='FontAwesome5' name='check'/>
+                    <Button transparent>
+                        <Icon style={styles.centeredGreenText} type='FontAwesome5' name='ban'/>
+                        <Text style={styles.centeredGreenText}>Skip</Text>
                     </Button>
-                    <Button>
-                        <Icon type='FontAwesome5' name='forward'/>
-                        <Text>Skip</Text>
+                    <Button transparent>
+                        <Text style={styles.centeredGreenText} >Done</Text>
+                        <Icon style={styles.centeredGreenText} type='FontAwesome5' name='check'/>
                     </Button>
                 </Body>
             </CardItem>
