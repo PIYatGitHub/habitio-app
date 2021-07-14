@@ -17,16 +17,18 @@ const emptyStep:IStep =  {
     schedule: [{day:-1, fromHour:'', toHour:''}],  
 }
 
-interface IEditHabitScreenProps {
+interface IEditStepScreenProps {
     onSetHabitGoals: (title:string, goals:string[], step:StatesEnum)=>void
-    stepToEdit?: IStep; 
+    stepToEdit: IStep;
+    habitToEdit: IHabit; 
     navigation: string[];
 }
 
-const EditHabitScreen = (props:IEditHabitScreenProps) => {
+const EditHabitScreen = (props:IEditStepScreenProps) => {
     const [title, setTitle] = useState(props.stepToEdit? props.stepToEdit.name: ''); 
     const [notes, setNotes] = useState(props.stepToEdit? props.stepToEdit.notes: ''); 
-    
+
+    console.log(props.habitToEdit);
 
     const handleTitleChange = (value:string) => {
         let newTitle:string = Object.assign('', title); 
@@ -50,6 +52,19 @@ const EditHabitScreen = (props:IEditHabitScreenProps) => {
         console.log(`Open Step Details: `, step.name);
     }
 
+    const onDonePress = (props: IEditStepScreenProps) => {
+        console.log(`Done Pressed`);
+
+        console.log(props.habitToEdit);
+        console.log(props.stepToEdit);
+        if(props.habitToEdit && props.stepToEdit) {
+            props.habitToEdit.steps.push(props.stepToEdit);
+
+            console.log(`step pushed`);
+            props.navigation.pop();
+        }
+    }
+
     return (
         <Container>
             <TopBar 
@@ -58,7 +73,7 @@ const EditHabitScreen = (props:IEditHabitScreenProps) => {
                 leftOnPress={() => props.navigation.pop()} 
                 rightIconName='check' 
                 //rightText='Done'
-                rightOnPress={()=>console.log('Step Creation Done')} 
+                rightOnPress={()=> onDonePress(props)} 
                 centerText='Add Step'></TopBar>
                 <Text style={styles.text}>Step Name:</Text>
                 <Item>

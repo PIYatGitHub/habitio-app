@@ -1,6 +1,8 @@
-import { Container, Text, Input, Item, Card, CardItem, Body, Icon} from 'native-base';
+import { Container, Text, Input, Item, Card, CardItem, Body, Icon, } from 'native-base';
+import { Keyboard } from 'react-native';
 import { IStep, IHabit, IUser, IUserStateAction, ScheduleTypes, StatesEnum } from '../../constants/interfaces';
 import React, { useState } from 'react';
+import { createStackNavigator } from "react-navigation-stack";
 
 import HabitEditor from './components/HabitEditor';
 import HabitDetails from './components/HabitDetails';
@@ -35,10 +37,13 @@ const EditHabitScreen = (props:IEditStepScreenProps) => {
     const [positiveMotivators, setPositiveMotivator] = useState<string[]>(props.habitToEdit? props.habitToEdit.positiveMotivators: ['']); 
     const [negativeMotivators, setNegativeMotivator] = useState<string[]>(props.habitToEdit? props.habitToEdit.negativeMotivators: ['']); 
 
-    const openScreen = (screenName:string) => {
-        console.log(`openScreen: `, screenName);
+    const addStep = (habitToEdit?: IHabit) => {
+        console.log(`openScreen: "EditStepScreen"`);
 
-        props.navigation.push(screenName);
+        //props.navigation.navigate()
+        console.log('navigation');
+        console.log(props.navigation);
+        props.navigation.push("EditStepScreen");
     }
 
     const handleTitleChange = (value:string) => {
@@ -119,7 +124,7 @@ const EditHabitScreen = (props:IEditStepScreenProps) => {
                 }) : <Card key='0' style={styles.cardStyle}>
                         <CardItem style={styles.cardItemStyle}>
                             <Body style={{display:'flex', flexDirection:'row', justifyContent:'space-between'}}>
-                                <Text style={styles.centeredGreenText} onPress= {()=>openScreen("EditStepScreen")}>+ Add new step</Text>
+                                <Text style={styles.centeredGreenText} onPress= {()=>addStep(props.habitToEdit)}>+ Add new step</Text>
                             </Body>
                         </CardItem>
                     </Card>}
